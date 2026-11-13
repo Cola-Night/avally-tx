@@ -1,0 +1,6 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Header />
+  <soap:Body>
+    <!-- Empty or no payload content here -->
+  </soap:Body>
+</soap:Envelope>

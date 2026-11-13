@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<soap:Envelope 
+  xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" 
+  xmlns:m="http://www.example.org">
+  <soap:Header>
+    <!-- Authentication token or metadata goes here if needed -->
+    <!-- Optional authentication or metadata header -->
+    <AuthHeader xmlns="https://example.com">
+      <SessionId>xyz123789ABC</SessionId>
+    </AuthHeader>
+  </soap:Header>
+  <soap:Body>
+    <OrderItems>
+      <!-- First Item Instance -->
+      <Item key="01">
+        <ProductId>P-101</ProductId>
+        <Quantity>2</Quantity>
+        <UnitPrice>19.99</UnitPrice>
+      </Item>
+      <!-- Second Item Instance -->
+      <Item key="02">
+        <ProductId>P-205</ProductId>
+        <Quantity>1</Quantity>
+        <UnitPrice>45.00</UnitPrice>
+      </Item>
+      <!-- Third Item Instance -->
+      <Item key="03">
+        <ProductId>P-310</ProductId>
+        <Quantity>5</Quantity>
+        <UnitPrice>4.50</UnitPrice>
+      </Item>
+    </OrderItems>
+  </soap:Body>
+</soap:Envelope>

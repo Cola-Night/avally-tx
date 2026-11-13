@@ -1,0 +1,14 @@
+{
+  "TaxOne-UAT": {
+    "Host": "",
+    "Port": "443",
+    "Username": "",
+    "Password": "",
+    "API-Key": [
+      ""
+    ],
+    "Endpoint": [
+      "/taxone-API/V2.1/etax/receipt"
+    ]
+  }
+}

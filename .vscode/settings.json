@@ -1,0 +1,7 @@
+{
+  "editor.tabSize": 2,
+  "workbench.editor.enablePreview": true,
+  "[markdown]": {
+    "editor.wordWrap": "off"
+  }
+}

@@ -1,0 +1,30 @@
+<soapenv:Envelope xmlns:soapenv="http://xmlsoap.org" xmlns:th="http://sap.com">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <th:TaxInvoiceSendRequest>
+    
+      <!-- eDocument Header Metadata -->
+      <th:DocumentHeader>
+        <th:CompanyCode>1000</th:CompanyCode>
+        <th:DocumentNumber>9000012345</th:DocumentNumber>
+        <th:FiscalYear>2026</th:FiscalYear>
+        <th:SourceDocumentType>INV</th:SourceDocumentType> <!-- e.g., Billing Document, Accounting Document -->
+        <th:eDocumentType>TH_INV</th:eDocumentType>
+      </th:DocumentHeader>
+      
+      <!-- Business Place and Tax Identification -->
+      <th:TaxRegistration>
+        <th:TaxID>0105553000123</th:TaxID> <!-- 13-digit Thai Tax ID -->
+        <th:BusinessPlace>00000</th:BusinessPlace> <!-- Head office (00000) or Branch ID -->
+      </th:TaxRegistration>
+
+      <!-- The electronic invoice content (usually structured or binary/base64 encoded depending on version) -->
+      <th:InvoiceContent>
+        <!-- Raw XML data or Base64 Encoded ETDA-compliant Tax Invoice XML -->
+        <th:InvoiceData>PHR4OkRheHRJbnZvaWNlIHhtbG5zOnR4PSJodHRwOi8vZXRkYS5vci50aC8iPi4uLjwvdHg6RGF4dEludm9pY2U+</th:InvoiceData>
+        <th:FileName>TH_TaxInvoice_9000012345.xml</th:FileName>
+      </th:InvoiceContent>
+
+    </th:TaxInvoiceSendRequest>
+  </soapenv:Body>
+</soapenv:Envelope>

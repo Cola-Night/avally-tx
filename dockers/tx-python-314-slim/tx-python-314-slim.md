@@ -1,0 +1,36 @@
+# tx-python-314-slim
+
+- Flask, Werkzeug
+  - http server
+  - (WSGI) Web Server Gateway Interface
+- flask-cors
+  - CORS -- Cross-Origin
+- requests
+  - send http request
+- bcrypt
+  - password hash / verify
+- selenium
+  - connect to remote browser
+- beautifulsoup4
+  - xml/html parser
+- lxml
+  - xml parser for beautifulsoup4
+- pandas
+  - data analysis toolkit
+  - data manipulation
+  - load csv data
+- openpyxl
+  - read/write Excel files [.xlsx|.xlsm]
+- pillow
+  - Imaging Library
+- pyjwt
+  - JSON Web Token
+  - token-based authentication
+- cryptography
+  - encrypt/decrypt secret data|message
+  - PEM key-pair (PrivateKey, PublicKey)
+- python-magic
+  - guess MIME-Type by contents
+- xmltodict
+  - XML to dict
+  - dict to XML

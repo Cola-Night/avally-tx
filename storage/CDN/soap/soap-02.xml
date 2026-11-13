@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <GetUserInfoResponse xmlns="http://example.com">
+      <UserResult>
+        <Id>12345</Id>
+        <Name>Alice Smith</Name>
+        <Email>alice@example.com</Email>
+        <Role>Admin</Role>
+      </UserResult>
+    </GetUserInfoResponse>
+  </soap:Body>
+</soap:Envelope>

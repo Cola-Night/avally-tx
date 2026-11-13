@@ -1,0 +1,32 @@
+
+
+/* [bg] background-color */
+.bg-b { background-color: #bbbbbb; }
+.bg-d { background-color: #dddddd; }
+.bg-e { background-color: #eeeeee; }
+
+/* [r] border-radius */
+.r-10 { border-radius: 10px; }
+
+/* [fx-] */
+.fx-c { display: flex; flex-direction: column; }
+.fx-r { display: flex; flex-direction: row;    }
+
+/* [ai-] */
+.ai-c { align-items: center; }
+
+/* [jc-] */
+.jc-c { justify-content: center; }
+
+/* margin axis-x */
+.mx-a { margin-left: auto; margin-right: auto; }
+
+/* padding */
+.p-10 { padding: 10px; }
+.p-20 { padding: 20px; }
+
+/* width: auto */
+.w-auto { width: auto; }
+
+/* width: fit-content */
+.w-fit { width: fit-content; }

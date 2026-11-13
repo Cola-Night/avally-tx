@@ -1,0 +1,12 @@
+services:
+  # Python HTTP-Server (port: 8000)
+  tx-python:
+    container_name: tx-python
+    build:
+      context: ./dockers/tx-python-314-slim
+      dockerfile: ./Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./storage:/workspace/Storage
+      - ./workspace:/workspace

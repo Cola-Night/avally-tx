@@ -2,7 +2,7 @@ from App.Module.Utility import *
 from flask import request
 import os
 
-# [JSON] List Request-Logs records (multiple)
+# [JSON] Fetch multiple Request-Logs records
 def Records(params:dict = {}) -> tuple:
   try:
     # Context
@@ -26,7 +26,7 @@ def Records(params:dict = {}) -> tuple:
   except Exception as e:
     raise
 
-# [JSON] Read Request-Logs JSON-File
+# [JSON] Fetch single Request-Logs record
 def Record(params:dict = {}) -> tuple:
   try:
     # Context
@@ -43,7 +43,7 @@ def Record(params:dict = {}) -> tuple:
     # Find Request-Log file
     find = '{path}/{key}'
     find = find.format(**{
-      'path': CTX['Path'],
+      'path': CTX['Path']['RequestContext'],
       'key': key,
     })
 
@@ -66,38 +66,26 @@ def Clear(params:dict = {}) -> tuple:
     CTX = createContext(params)
     res = CTX['Response']
 
-    # List logs files
-    records = listRequestLogs(CTX)
-
-    # List deleted files
-    deleted = []
-
-    # Delete Request-Logs files
-    for index, record in enumerate(records):
-      if os.path.exists(record['path']):
-        # Delete file
-        os.remove(record['path'])
-        # Deleted record
-        deleted.append(record)
+    # processing
+    deleteRequestContext(CTX)
+    truncateRequestHistory(CTX)
 
     # Update Response-Body
     res['Body'] = {
       'code': 200,
       'message': 'request-logs clear',
-      'records': deleted,
+      'records': CTX['DeletedContexts'],
     }
 
     # HTTP-Response (body,status,headers)
     return responseTuple(CTX)
-
   except Exception as e:
     raise
 
 
 
 
-
-# [init] Create Context (CTX)
+# [init] Global Context / Shared config data
 def createContext(params:dict = {}) -> dict:
   try:
     # Context
@@ -108,7 +96,10 @@ def createContext(params:dict = {}) -> dict:
         'Body': {},
         'Headers': {},
       },
-      'Path': '.temp/request-logs',
+      'Path': {
+        'RequestContext': '.temp/request-logs', 
+        'RequestHistory': '.temp/request-logs.csv', 
+      }
     }
 
     # (dict)
@@ -124,7 +115,7 @@ def listRequestLogs(CTX:dict) -> list:
     records = []
 
     # List files in directory
-    files = listFiles(CTX['Path'])
+    files = listFiles(CTX['Path']['RequestContext'])
 
     # Ignore error?
     if files == None:
@@ -136,9 +127,12 @@ def listRequestLogs(CTX:dict) -> list:
       # Get file created time (timestamp)
       created = os.path.getctime(path)
 
+      # Get file basename
+      basename = os.path.basename(path)
+
       # Update records
       records.append({
-        'path': path,
+        'key': basename,
         'created': created,
       })
 
@@ -147,6 +141,59 @@ def listRequestLogs(CTX:dict) -> list:
 
     # (list)
     return records
+  except Exception as e:
+    raise
+
+# Delete request-context files
+def deleteRequestContext(CTX:dict) -> list:
+  try:
+    records = listRequestLogs(CTX)
+    deleted = []
+
+    # Delete Request-Logs files
+    for index, record in enumerate(records):
+      
+      # Convert record-key to filepath (.json)
+      filepath = '{path}/{key}'
+      filepath = filepath.format(**{
+        'path': CTX['Path']['RequestContext'],
+        'key': record['key'],
+      })
+
+      # Delete Request-Context file (.json)
+      if os.path.exists(filepath):
+        os.remove(filepath)
+        deleted.append(key)
+
+    # Update App-Context
+    CTX['DeletedContexts'] = deleted
+
+    # (list) deleted files
+    return deleted
+  except Exception as e:
+    raise
+
+# Clear Request-History CSV
+def truncateRequestHistory(CTX:dict) -> bool:
+  try:
+    # Request-History file (CSV)
+    history = CTX['Path']['RequestHistory']
+
+    # (bool=False) failed
+    # Request-History file not exists
+    if not os.path.isfile(history):
+      return False
+
+    # Read CSV First-Line
+    with open(history, "r") as f:
+      first_line = f.readline()
+
+    # Clear CSV (except First-Line)
+    with open(history, "w") as f:
+      f.write(first_line)
+
+    # (bool=True) success
+    return True
   except Exception as e:
     raise
 

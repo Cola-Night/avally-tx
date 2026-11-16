@@ -33,13 +33,15 @@ def main(params:dict = {}) -> tuple:
       },
       'body': {},
     },
-    'SAP': {
+    'S4': {
       'ContentType': [],
       'Authorization': {},
       'SoapAction': {},
       'SoapPayload': {},
     },
-    'TaxOne': {},
+    'TaxOne': {
+      'Endpoint': '',
+    },
   }
 
   # Stop when Response.status NOT 200
@@ -263,7 +265,9 @@ def validReqBody(CTX:dict) -> int:
 
 
 # todo: wait TaxOne-API Spec.
-# [SAP] Convert S4HANA-Payload to TaxOne-API formal
+# [S4 (S4HANA)]
+# Convert Payload from S4HANA (CTX.S4.SoapPayload)
+# to TaxOne-API accept format (XML/SOAP?)
 def sapToTaxOne(CTX:dict) -> int:
 
   # todo: Convert SOAP to payload for TaxOne-API
@@ -275,6 +279,8 @@ def sapToTaxOne(CTX:dict) -> int:
 # [TaxOne] Send Converted-Payload to TaxOne-API
 def taxOneSubmit(CTX:dict) -> int:
 
+
+
   # Prepare Request-Body (XML/SOAP)
   # Note: dummy payload XML/SOAP 
   xml = 'Resources/Soap/EmptyBody.xml'
@@ -282,9 +288,9 @@ def taxOneSubmit(CTX:dict) -> int:
 
   # Send HTTP-Request, Wait Response
   response = requests.post(
+    # timeout=30,
     url='http://localhost/api/v1/test-request.json',
     data=xml,
-    # timeout=30,
     headers={
       'content-type': 'text/xml',
     },

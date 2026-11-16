@@ -1,6 +1,8 @@
 from App.Module.Utility import *
+from App.Module.MacroCSV import MacroCSV
 from flask import Flask, request, jsonify, send_from_directory, redirect, abort
 from flask_cors import CORS
+from datetime import datetime, timezone
 from typing import Any
 import importlib
 import uuid
@@ -25,7 +27,7 @@ CORS(server, resources={
   },
 })
 
-# [Utility] HTTP-Controller shortcut
+# [Utility] shortcut to HTTP-Controller file (App/HTTP/*.py)
 def http_controller(controller:str, params:dict = {}) -> Any:
   
   # Split [ModulePath, CallbackFunction]
@@ -44,8 +46,48 @@ def http_controller(controller:str, params:dict = {}) -> Any:
   # (int | tuple)
   return response
 
-# [Utility] Log HTTP-Request data
-def log_request() -> str:
+# [HTTP-Request-Log] log HTTP-Request history into CSV-File
+def log_request_history() -> str:
+  try:
+    # Handler multiple CSV
+    log = MacroCSV()
+
+    # Prepare CSV-Writer file save location
+    # Note: use "name" as shortcut when append new row
+    log.create(
+      file='.temp/request-logs.csv',
+      name='RequestLogs',
+      headers=[
+        'DateTime',
+        'Method',
+        'URL',
+        'Context',
+      ],
+    )
+
+    # Get current DateTime "2026-12-31T23:59:59+00:00"
+    current_dt = datetime.now(timezone.utc)
+    current_dt = current_dt.isoformat()
+
+    # Default Request-Context
+    context = 'NONE'
+
+    # Overwrite Request-Context (json-file save location)
+    if request.method != 'GET':
+      context = log_request_context()
+
+    # Append new request-history
+    log.append('RequestLogs',[
+      current_dt,
+      request.method,
+      request.full_path,
+      context,
+    ])
+  except Exception as e:
+    raise
+
+# [HTTP-Request-Log] Log HTTP-Request-Context into JSON-File
+def log_request_context() -> str:
   try:
     # Request-Log save location
     save = '.temp/request-logs/req-{code}.json'
@@ -68,12 +110,12 @@ def log_request() -> str:
     body = body.decode('utf-8') # Bytes to String
     body = body.splitlines()    # Split LineBreak
 
-    # Save Request-Log
+    # Save Request-Context (JSON-file)
     jsonSave(save,{
-      'method': request.method,
-      'url': request.url,
-      'headers': headers,
-      'body': body,
+      'method':   request.method,
+      'url':      request.full_path,
+      'headers':  headers,
+      'body':     body,
     })
 
     # (string) file save location
@@ -81,11 +123,10 @@ def log_request() -> str:
   except Exception as e:
     raise
 
-
 # [HTML/Error-404] Error Page
 @server.errorhandler(404)
 def error_404(error):
-  log_request()
+  log_request_history()
   return send_from_directory(
     directory='Resources/HTML',
     path='Error-404.html',
@@ -94,7 +135,7 @@ def error_404(error):
 # [HTML/Home]
 @server.route('/',methods=['GET'])
 def index():
-  log_request()
+  log_request_history()
   return send_from_directory(
     directory='Public',
     path='index.html',
@@ -133,12 +174,9 @@ def request_logs_record():
 # todo: research methods
 # [JSON/TaxOne-API] /taxone-API/V2.1/etax/receipt
 # SAP SOAP-Payload -> Convert-Payload -> Send to OneTax-API
-@server.route(
-  '/taxone-API/V2.1/etax/receipt',
-  methods=['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-)
+@server.route('/taxone-API/V2.1/etax/receipt',methods=['POST'])
 def api_taxone_etax_receipt() -> tuple:
-  log_request()
+  log_request_history()
   return http_controller(
     controller='App.HTTP.TaxOneAPI.eTaxReceipt@main',
     params={},
@@ -151,7 +189,7 @@ def api_taxone_etax_receipt() -> tuple:
 def api_v1_request_logs_records():
   return http_controller('App.HTTP.API.V1.RequestLogs@Records')
 
-# [JSON|API-V1|Request-Logs] View record (single)
+# [JSON|API-V1|Request-Logs] Request-Context details
 @server.route('/api/v1/request-logs/record.json', methods=['GET'])
 def api_v1_request_logs_record():
   return http_controller('App.HTTP.API.V1.RequestLogs@Record')

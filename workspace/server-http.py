@@ -46,14 +46,13 @@ def http_controller(controller:str, params:dict = {}) -> Any:
   # (int | tuple)
   return response
 
-# [HTTP-Request-Log] log HTTP-Request history into CSV-File
+# [HTTP-Request-Log] log Request-History into CSV-File
 def log_request_history() -> str:
   try:
-    # Handler multiple CSV
+    # Handling multiple CSV
     log = MacroCSV()
 
-    # Prepare CSV-Writer file save location
-    # Note: use "name" as shortcut when append new row
+    # Prepare CSV-Writer
     log.create(
       file='.temp/request-logs.csv',
       name='RequestLogs',
@@ -69,31 +68,44 @@ def log_request_history() -> str:
     current_dt = datetime.now(timezone.utc)
     current_dt = current_dt.isoformat()
 
-    # Default Request-Context
-    context = 'NONE'
+    # Request-Context (json-file save location)
+    context = log_request_context()
 
-    # Overwrite Request-Context (json-file save location)
-    if request.method != 'GET':
-      context = log_request_context()
-
-    # Append new request-history
+    # Append new request-history (CSV-Row)
+    # Note: use "name" as shortcut when append new row
     log.append('RequestLogs',[
       current_dt,
       request.method,
       request.full_path,
-      context,
+      context['code'],
     ])
   except Exception as e:
     raise
 
-# [HTTP-Request-Log] Log HTTP-Request-Context into JSON-File
-def log_request_context() -> str:
+# [HTTP-Request-Log] Log Request-Context into JSON-File (Request-Body details)
+def log_request_context() -> dict:
   try:
-    # Request-Log save location
-    save = '.temp/request-logs/req-{code}.json'
-    save = save.format(**{
-      'code': uuid.uuid4(),
-    })
+    # Loop until file is unique
+    while True:
+
+      # Unique code
+      code = uuid.uuid4()
+
+      # basename (filename.ext)
+      basename = 'req-{code}.json'
+      basename = basename.format(**{
+        'code': code,
+      })
+
+      # Request-Log save location
+      save = '.temp/request-logs/{basename}'
+      save = save.format(**{
+        'basename': basename,
+      })
+
+      # Stop when file is unique
+      if not os.path.isfile(save):
+        break
 
     # Parent directories
     parent = os.path.dirname(save)
@@ -105,10 +117,14 @@ def log_request_context() -> str:
     # Request-Headers
     headers = dict(request.headers)
 
+    # Request-Body (default)
+    body = None
+
     # Rquest-Body
-    body = request.get_data()   # RAW-Bytes 
-    body = body.decode('utf-8') # Bytes to String
-    body = body.splitlines()    # Split LineBreak
+    if request.method != 'GET':
+      body = request.get_data()   # RAW-Bytes 
+      body = body.decode('utf-8') # Bytes to String
+      body = body.splitlines()    # Split LineBreak
 
     # Save Request-Context (JSON-file)
     jsonSave(save,{
@@ -118,12 +134,20 @@ def log_request_context() -> str:
       'body':     body,
     })
 
-    # (string) file save location
-    return save
+    # (dict)
+    return {
+      'code': code,
+      'save': save,
+      'basename': basename,
+    }
   except Exception as e:
     raise
 
-# [HTML/Error-404] Error Page
+
+
+
+
+# [HTML] Error-404 page
 @server.errorhandler(404)
 def error_404(error):
   log_request_history()
@@ -132,7 +156,7 @@ def error_404(error):
     path='Error-404.html',
   )
 
-# [HTML/Home]
+# [HTML] Home page
 @server.route('/',methods=['GET'])
 def index():
   log_request_history()
@@ -144,6 +168,7 @@ def index():
 # [MediaFile] Response MediaFile from "Storage/CDN/..."
 @server.route('/cdn/<path:filepath>')
 def file_cdn(filepath):
+  log_request_history()
   return http_controller(
     controller='App.HTTP.CDN@main',
     params={
@@ -151,27 +176,26 @@ def file_cdn(filepath):
     }
   )
 
-
-
-# [HTML/Request-Logs] list
+# [HTML] Request-Logs page
 @server.route('/request-logs')
 def request_logs_index():
+
+  # required secret cookie to access
+  if 'secret' not in request.cookies:
+    return abort(404) # fake 404 (real=403)
+
+  # (text/html) Response
   return send_from_directory(
     directory='Resources/HTML/Request-Logs',
     path='Index.html',
   )
 
-# [HTML/Request-Logs] View record
-@server.route('/request-logs/record')
-def request_logs_record():
-  return send_from_directory(
-    directory='Resources/HTML/Request-Logs',
-    path='Record.html',
-  )
 
 
 
-# todo: research methods
+
+# todo: wait for Stream/TaxOne-API spec.
+
 # [JSON/TaxOne-API] /taxone-API/V2.1/etax/receipt
 # SAP SOAP-Payload -> Convert-Payload -> Send to OneTax-API
 @server.route('/taxone-API/V2.1/etax/receipt',methods=['POST'])
@@ -181,6 +205,7 @@ def api_taxone_etax_receipt() -> tuple:
     controller='App.HTTP.TaxOneAPI.eTaxReceipt@main',
     params={},
   )
+
 
 
 
@@ -198,6 +223,7 @@ def api_v1_request_logs_record():
 @server.route('/api/v1/request-logs/clear.json', methods=['POST'])
 def api_v1_request_logs_clear():
   return http_controller('App.HTTP.API.V1.RequestLogs@Clear')
+
 
 
 # Start WebServer

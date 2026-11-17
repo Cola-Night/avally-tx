@@ -2,12 +2,16 @@ from App.Module.Utility import *
 from flask import request
 import os
 
-# [JSON] Fetch multiple Request-Logs records
+# [Response/JSON] Fetch multiple Request-Logs records
 def Records(params:dict = {}) -> tuple:
   try:
     # Context
     CTX = createContext(params)
     res = CTX['Response']
+    
+    # Required secret cookie to continue
+    if validSecretCookie(CTX) == False:
+      return responseError(403)
 
     # List logs files
     records = listRequestLogs(CTX)
@@ -26,12 +30,16 @@ def Records(params:dict = {}) -> tuple:
   except Exception as e:
     raise
 
-# [JSON] Fetch single Request-Logs record
+# [Response/JSON] Fetch single Request-Logs record
 def Record(params:dict = {}) -> tuple:
   try:
     # Context
     CTX = createContext(params)
     res = CTX['Response']
+    
+    # Required secret cookie to continue
+    if validSecretCookie(CTX) == False:
+      return responseError(403)
 
     # QueryString
     key = request.args.get('key')
@@ -59,12 +67,16 @@ def Record(params:dict = {}) -> tuple:
   except Exception as e:
     raise
 
-# [JSON] Clear Request-Logs
+# [Response/JSON] Clear Request-Logs
 def Clear(params:dict = {}) -> tuple:
   try:
     # Context
     CTX = createContext(params)
     res = CTX['Response']
+
+    # Required secret cookie to continue
+    if validSecretCookie(CTX) == False:
+      return responseError(403)
 
     # processing
     deleteRequestContext(CTX)
@@ -85,6 +97,7 @@ def Clear(params:dict = {}) -> tuple:
 
 
 
+
 # [init] Global Context / Shared config data
 def createContext(params:dict = {}) -> dict:
   try:
@@ -95,6 +108,10 @@ def createContext(params:dict = {}) -> dict:
         'Status': 200,
         'Body': {},
         'Headers': {},
+      },
+      'Auth': {
+        'CookieKey': 'secret',
+        'CookieVal': 'Avally_Test',
       },
       'Path': {
         'RequestContext': '.temp/request-logs', 
@@ -144,7 +161,7 @@ def listRequestLogs(CTX:dict) -> list:
   except Exception as e:
     raise
 
-# Delete request-context files
+# Delete all Request-Context (JSON) files
 def deleteRequestContext(CTX:dict) -> list:
   try:
     records = listRequestLogs(CTX)
@@ -197,6 +214,27 @@ def truncateRequestHistory(CTX:dict) -> bool:
   except Exception as e:
     raise
 
+# Has secrect Cookie
+def validSecretCookie(CTX:dict) -> bool:
+  try:
+    # Shortcut context
+    auth = CTX['Auth']
+
+    # auth cookie-key missing
+    if auth['CookieKey'] not in request.cookies:
+      return False
+    
+    # Get cookie.secret value
+    value = request.cookies.get(auth['CookieKey'])
+
+    # Invalid Cookie-Value
+    if auth['CookieVal'] != value:
+      return False
+
+    # (bool=True) success
+    return True
+  except Exception as e:
+    raise
 
 # [response] Convert CTX[Response] to tuple (Body, Status, Headers)
 def responseTuple(CTX:dict) -> tuple:
@@ -216,6 +254,7 @@ def responseError(code:int) -> tuple:
   # Mapping Error-Code => Message
   mapping = {
     400: 'bad request',
+    403: 'forbidden',
     404: 'not found',
   }
 

@@ -51,7 +51,7 @@ def main(params:dict = {}) -> tuple:
 
     validReqMethod,       # 200|400 Request.Method
     validReqContentType,  # 200|40X Request.Header[Content-Type]
-    # validReqAuth,         # 200|40X Request.Header[Authorization]
+    validReqAuth,         # 200|40X Request.Header[Authorization]
     # validReqSoapAction,   # 200|40X Request.Header[SOAPAction]
     validReqBody,         # 200|40X Request.Body
 
@@ -177,7 +177,7 @@ def validReqContentType(CTX:dict) -> int:
     return 400
 
   # Update context
-  CTX['SAP']['ContentType'] = CT
+  CTX['S4']['ContentType'] = CT
 
   # 200/OK
   return 200
@@ -199,7 +199,8 @@ def validReqAuth(CTX:dict) -> int:
 
   # Allow Base64
   allow = [
-    'QVZBTExZX1Rlc3Q6QVZBTExZX1Rlc3Q=',
+    'QVZBTExZX1Rlc3Q6QVZBTExZX1Rlc3Q=', # AVALLY_Test:AVALLY_Test
+    'QXZhbGx5X1Rlc3Q6QXZhbGx5X1Rlc3Q=', # Avally_Test:Avally_Test
   ]
 
   # Unknown Authorization
@@ -234,7 +235,7 @@ def validReqSoapAction(CTX:dict) -> int:
     return 200
 
   # Update Context
-  CTX['SAP']['SoapAction'] = headers['SOAPAction']
+  CTX['S4']['SoapAction'] = headers['SOAPAction']
 
   # 200/OK
   return 200
@@ -255,7 +256,7 @@ def validReqBody(CTX:dict) -> int:
   data = xmltodict.parse(body)
 
   # Update Content
-  CTX['SAP']['SoapPayload'] = data
+  CTX['S4']['SoapPayload'] = data
 
   # 200/OK
   return 200

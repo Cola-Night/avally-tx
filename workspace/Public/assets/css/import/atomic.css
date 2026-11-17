@@ -21,9 +21,22 @@
 /* margin axis-x */
 .mx-a { margin-left: auto; margin-right: auto; }
 
+
+/* gap */
+.g-10 { gap: 10px; }
+.g-20 { gap: 20px; }
+
 /* padding */
 .p-10 { padding: 10px; }
 .p-20 { padding: 20px; }
+
+/* padding axis-x (left,right) */
+.px-10 { padding-left: 10px; padding-right: 10px; }
+.px-20 { padding-left: 20px; padding-right: 20px; }
+
+/* padding axis-y (top, bottom) */
+.py-10 { padding-top: 10px; padding-bottom: 10px; }
+.py-20 { padding-top: 20px; padding-bottom: 20px; }
 
 /* width: auto */
 .w-auto { width: auto; }

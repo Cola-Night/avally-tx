@@ -4,10 +4,63 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Request-Logs</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
   <div id="root">
+    <main class="">
+      <div class="px-10 py-20">
+        <div class="container-720 mx-a r-10 bg-e">
+          <div class="container-inner p-20">
+            
+            <!-- Request-Logs (Records Table) -->
+            <article class="fx-c g-10">
+              <div class="">
+                <h3>Request-Logs</h3>
+              </div>
+              <div class="">
+
+                <div id="request-logs" class="tbl-wrap">
+                  <table class="tbl-01">
+                    <thead class="">
+                      <tr class="">
+                        
+                      </tr>
+                    </thead>
+                    <tbody class="" data-body="loading">
+                      <tr>
+                        <td class="">
+                          <div class="">
+                            <p>loading...</p>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tbody class="" data-body="records" hidden>
+                      <tr>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+            </article>
+
+            <!-- Clear Records -->
+            <article class="">
+              <form action="/api/v1/request-logs/clear.json" method="post">
+                
+              </form>
+            </article>
+
+          </div>
+        </div>
+      </div>
+    </main>
     
   </div>
+  <!-- JS -->
+  <script type="module" src="/assets/script/request-logs.js"></script>
 </body>
 </html>

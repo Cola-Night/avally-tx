@@ -23,3 +23,18 @@ body {
 }
 .container-720 { width: min(100%, 720px); }
 .container-920 { width: min(100%, 960px); }
+
+
+/* [Table-Wrap] */
+.tbl-wrap {
+  overflow: auto;
+}
+
+
+/* Table-Style-01 */
+.tbl-01 {
+  border-collapse: collapse;
+}
+.tbl-01 td, .tbl-01 th {
+  border: 1px solid #888;
+}

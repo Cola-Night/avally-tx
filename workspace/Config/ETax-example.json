@@ -1,14 +1,18 @@
 {
-  "TaxOne-UAT": {
-    "Host": "",
-    "Port": "443",
-    "Username": "",
-    "Password": "",
-    "API-Key": [
-      ""
-    ],
-    "Endpoint": [
-      "/taxone-API/V2.1/etax/receipt"
+  "Connection": {
+    "Host": "https://test.streamtaxone.com",
+    "Port": "443"
+  },
+  "Authorization": {
+    "Basic": {
+      "Username": "AVALLY_Test",
+      "Password": "AVALLY_Test"
+    },
+    "Bearer": [
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
     ]
-  }
+  },
+  "Endpoint": [
+    "/taxone-API/V2.1/etax/receipt"
+  ]
 }

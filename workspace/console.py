@@ -6,7 +6,6 @@ import os
 # Main
 def main() -> None:
   try:
-    
     # Context
     CTX = {
       'CollectionPath': [
@@ -18,7 +17,6 @@ def main() -> None:
 
     # init
     initCollection(CTX)
-
   except Exception as e:
     print(f"[ERROR] main: {e}")
 
@@ -65,9 +63,7 @@ def listRecursiveFiles(path:str) -> list:
     # Add files in directory into output
     for root, dirs, files in os.walk(path):
       for file in files:
-        output.append(
-          os.path.join(root, file)
-        )
+        output.append(os.path.join(root, file))
 
     # (list) files
     return output
@@ -96,7 +92,7 @@ def listDefinedFunctions(source) -> list:
     # Update output[module-path]
     output['source'] = source
 
-    # import module
+    # import module (with module-path:str)
     module = importlib.import_module(source)
 
     # Loop through all members of the module

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<n0:SendTaxInvoiceRequest xmlns:n0="http://www.sap.com/eDocument/TH/SendTaxInvoice/v1.0"
+  xmlns:prx="urn:sap.com:proxy:X9A:/1SAI/TAS0CF98966C3AB41DC8224:920" xmlns:n1="http://www.w3.org/2000/09/xmldsig#"
+  xmlns:n2="urn:etda:uncefact:data:standard:TaxInvoice_CrossIndustryInvoice:2"
+  xmlns:n3="urn:etda:uncefact:data:standard:TaxInvoice_ReusableAggregateBusinessInformationEntity:2">
+  <Body>
+    <n2:ExchangedDocumentContext>
+      <n3:GuidelineSpecifiedDocumentContextParameter>
+        <n3:ID schemeAgencyID="ETDA" schemeVersionID="v2.0">ER3-2560</n3:ID>
+      </n3:GuidelineSpecifiedDocumentContextParameter>
+    </n2:ExchangedDocumentContext>
+    <n2:ExchangedDocument>
+      <n3:ID>0090001103</n3:ID>
+      <n3:Name languageID="EN">test</n3:Name>
+      <n3:TypeCode>test</n3:TypeCode>
+      <n3:IssueDateTime>2026-07-25T03:03:34Z</n3:IssueDateTime>
+      <n3:GlobalID>2026-11-09T074359</n3:GlobalID>
+      <n3:CreationDateTime>2026-11-17T04:41:37Z</n3:CreationDateTime>
+    </n2:ExchangedDocument>
+    <n2:SupplyChainTradeTransaction>
+      <n3:ApplicableHeaderTradeAgreement>
+        <n3:SellerTradeParty>
+          <n3:ID>6810</n3:ID>
+          <n3:Name>บริษัท อาแวลลี (ไทยแลนด์) จำกัด</n3:Name>
+          <n3:SpecifiedTaxRegistration>
+            <n3:ID schemeID="TXID">010555802801668100</n3:ID>
+          </n3:SpecifiedTaxRegistration>
+          <n3:PostalTradeAddress>
+            <n3:PostcodeCode>10310</n3:PostcodeCode>
+            <n3:LineOne>ถนนพระราม 9</n3:LineOne>
+            <n3:LineTwo>อาคารเดอะไนน์ ทาวเวอร์ แกรนด์ พระราม 9</n3:LineTwo>
+            <n3:LineThree>(อาคาร บี) ชั้น 26</n3:LineThree>
+            <n3:CountryID>TH</n3:CountryID>
+            <n3:BuildingNumber>33/4</n3:BuildingNumber>
+          </n3:PostalTradeAddress>
+        </n3:SellerTradeParty>
+        <n3:BuyerTradeParty>
+          <n3:ID>0068186002</n3:ID>
+          <n3:Name>Thai Frozen Foods Industry Co., Ltd.</n3:Name>
+          <n3:SpecifiedTaxRegistration>
+            <n3:ID schemeID="TXID">01075360015020000</n3:ID>
+          </n3:SpecifiedTaxRegistration>
+          <n3:DefinedTradeContact>
+            <n3:EmailURIUniversalCommunication>
+              <n3:URIID>mailto:info@68186002.com</n3:URIID>
+              <n3:CompleteNumber>info@68186002.com</n3:CompleteNumber>
+            </n3:EmailURIUniversalCommunication>
+          </n3:DefinedTradeContact>
+          <n3:PostalTradeAddress>
+            <n3:PostcodeCode>74000</n3:PostcodeCode>
+            <n3:LineOne>Rama II Road</n3:LineOne>
+            <n3:LineTwo>Moo 4</n3:LineTwo>
+            <n3:LineThree>Tha Sai Subdistrict</n3:LineThree>
+            <n3:LineFour>Samut Sakhon Industrial Estate</n3:LineFour>
+            <n3:CountryID>TH</n3:CountryID>
+            <n3:BuildingNumber>88/8</n3:BuildingNumber>
+          </n3:PostalTradeAddress>
+        </n3:BuyerTradeParty>
+      </n3:ApplicableHeaderTradeAgreement>
+      <n3:ApplicableHeaderTradeDelivery>
+        <n3:ShipToTradeParty>
+          <n3:ID>0068186002</n3:ID>
+          <n3:Name>Thai Frozen Foods Industry Co., Ltd.</n3:Name>
+          <n3:SpecifiedTaxRegistration>
+            <n3:ID schemeID="TXID">01075360015020000</n3:ID>
+          </n3:SpecifiedTaxRegistration>
+          <n3:DefinedTradeContact>
+            <n3:EmailURIUniversalCommunication>
+              <n3:URIID>mailto:info@68186002.com</n3:URIID>
+              <n3:CompleteNumber>info@68186002.com</n3:CompleteNumber>
+            </n3:EmailURIUniversalCommunication>
+          </n3:DefinedTradeContact>
+          <n3:PostalTradeAddress>
+            <n3:PostcodeCode>74000</n3:PostcodeCode>
+            <n3:LineOne>Rama II Road</n3:LineOne>
+            <n3:LineTwo>Moo 4</n3:LineTwo>
+            <n3:LineThree>Tha Sai Subdistrict</n3:LineThree>
+            <n3:LineFour>Samut Sakhon Industrial Estate</n3:LineFour>
+            <n3:CountryID>TH</n3:CountryID>
+            <n3:BuildingNumber>88/8</n3:BuildingNumber>
+          </n3:PostalTradeAddress>
+        </n3:ShipToTradeParty>
+      </n3:ApplicableHeaderTradeDelivery>
+      <n3:ApplicableHeaderTradeSettlement>
+        <n3:ApplicableTradeTax>
+          <n3:TypeCode />
+          <n3:CalculatedRate>7.0</n3:CalculatedRate>
+          <n3:BasisAmount currencyID="THB">4905.6</n3:BasisAmount>
+          <n3:CalculatedAmount currencyID="THB">343.39</n3:CalculatedAmount>
+        </n3:ApplicableTradeTax>
+        <n3:SpecifiedTradeAllowanceCharge>
+          <n3:ChargeIndicator>true</n3:ChargeIndicator>
+          <n3:ActualAmount currencyID="THB">105.6</n3:ActualAmount>
+          <n3:Reason>Electricity Price Ad</n3:Reason>
+        </n3:SpecifiedTradeAllowanceCharge>
+        <n3:SpecifiedTradePaymentTerms />
+        <n3:SpecifiedTradeSettlementHeaderMonetarySummation>
+          <n3:LineTotalAmount currencyID="THB">4905.6</n3:LineTotalAmount>
+          <n3:AllowanceTotalAmount>0.0</n3:AllowanceTotalAmount>
+          <n3:ChargeTotalAmount currencyID="THB">105.6</n3:ChargeTotalAmount>
+          <n3:TaxBasisTotalAmount currencyID="THB">4905.6</n3:TaxBasisTotalAmount>
+          <n3:TaxTotalAmount currencyID="THB">343.39</n3:TaxTotalAmount>
+          <n3:GrandTotalAmount currencyID="THB">5248.99</n3:GrandTotalAmount>
+        </n3:SpecifiedTradeSettlementHeaderMonetarySummation>
+        <n3:InvoiceeTradeParty>
+          <n3:ID>0068186002</n3:ID>
+          <n3:Name>Thai Frozen Foods Industry Co., Ltd.</n3:Name>
+          <n3:SpecifiedTaxRegistration>
+            <n3:ID schemeID="TXID">01075360015020000</n3:ID>
+          </n3:SpecifiedTaxRegistration>
+          <n3:DefinedTradeContact>
+            <n3:EmailURIUniversalCommunication>
+              <n3:URIID>mailto:info@68186002.com</n3:URIID>
+              <n3:CompleteNumber>info@68186002.com</n3:CompleteNumber>
+            </n3:EmailURIUniversalCommunication>
+          </n3:DefinedTradeContact>
+          <n3:PostalTradeAddress>
+            <n3:PostcodeCode>74000</n3:PostcodeCode>
+            <n3:LineOne>Rama II Road</n3:LineOne>
+            <n3:LineTwo>Moo 4</n3:LineTwo>
+            <n3:LineThree>Tha Sai Subdistrict</n3:LineThree>
+            <n3:LineFour>Samut Sakhon Industrial Estate</n3:LineFour>
+            <n3:CountryID>TH</n3:CountryID>
+            <n3:BuildingNumber>88/8</n3:BuildingNumber>
+          </n3:PostalTradeAddress>
+        </n3:InvoiceeTradeParty>
+        <n3:PayerTradeParty>
+          <n3:ID>0068186002</n3:ID>
+          <n3:Name>Thai Frozen Foods Industry Co., Ltd.</n3:Name>
+          <n3:SpecifiedTaxRegistration>
+            <n3:ID schemeID="TXID">01075360015020000</n3:ID>
+          </n3:SpecifiedTaxRegistration>
+          <n3:DefinedTradeContact>
+            <n3:EmailURIUniversalCommunication>
+              <n3:URIID>mailto:info@68186002.com</n3:URIID>
+              <n3:CompleteNumber>info@68186002.com</n3:CompleteNumber>
+            </n3:EmailURIUniversalCommunication>
+          </n3:DefinedTradeContact>
+          <n3:PostalTradeAddress>
+            <n3:PostcodeCode>74000</n3:PostcodeCode>
+            <n3:LineOne>Rama II Road</n3:LineOne>
+            <n3:LineTwo>Moo 4</n3:LineTwo>
+            <n3:LineThree>Tha Sai Subdistrict</n3:LineThree>
+            <n3:LineFour>Samut Sakhon Industrial Estate</n3:LineFour>
+            <n3:CountryID>TH</n3:CountryID>
+            <n3:BuildingNumber>88/8</n3:BuildingNumber>
+          </n3:PostalTradeAddress>
+        </n3:PayerTradeParty>
+      </n3:ApplicableHeaderTradeSettlement>
+      <n3:IncludedSupplyChainTradeLineItem>
+        <n3:AssociatedDocumentLineDocument>
+          <n3:LineID>1</n3:LineID>
+        </n3:AssociatedDocumentLineDocument>
+        <n3:SpecifiedTradeProduct>
+          <n3:ID>ZGAS_O2_NM3</n3:ID>
+          <n3:Name>Liquid Nitrogen Bulk (M3)</n3:Name>
+          <n3:Description>Liquid Nitrogen Bulk (M3)</n3:Description>
+          <n3:IndividualTradeProductInstance />
+          <n3:DesignatedProductClassification>
+            <n3:ClassName>Trading Materials</n3:ClassName>
+          </n3:DesignatedProductClassification>
+          <n3:OriginTradeCountry>
+            <n3:ID>TH</n3:ID>
+          </n3:OriginTradeCountry>
+        </n3:SpecifiedTradeProduct>
+        <n3:SpecifiedLineTradeAgreement>
+          <n3:GrossPriceProductTradePrice>
+            <n3:ChargeAmount currencyID="THB">10.22</n3:ChargeAmount>
+          </n3:GrossPriceProductTradePrice>
+        </n3:SpecifiedLineTradeAgreement>
+        <n3:SpecifiedLineTradeDelivery>
+          <n3:BilledQuantity>480.000</n3:BilledQuantity>
+          <n3:PerPackageUnitQuantity>0</n3:PerPackageUnitQuantity>
+        </n3:SpecifiedLineTradeDelivery>
+        <n3:SpecifiedLineTradeSettlement>
+          <n3:ApplicableTradeTax>
+            <n3:TypeCode />
+            <n3:CalculatedRate>7.0</n3:CalculatedRate>
+            <n3:BasisAmount currencyID="THB">4905.6</n3:BasisAmount>
+            <n3:CalculatedAmount currencyID="THB">343.39</n3:CalculatedAmount>
+          </n3:ApplicableTradeTax>
+          <n3:SpecifiedTradeAllowanceCharge>
+            <n3:ChargeIndicator>true</n3:ChargeIndicator>
+            <n3:ActualAmount currencyID="THB">105.6</n3:ActualAmount>
+            <n3:Reason>Electricity Price Ad</n3:Reason>
+          </n3:SpecifiedTradeAllowanceCharge>
+          <n3:SpecifiedTradeSettlementLineMonetarySummation>
+            <n3:TaxTotalAmount currencyID="THB">343.39</n3:TaxTotalAmount>
+            <n3:NetLineTotalAmount currencyID="THB">4905.6</n3:NetLineTotalAmount>
+            <n3:NetIncludingTaxesLineTotalAmount currencyID="THB">5248.99</n3:NetIncludingTaxesLineTotalAmount>
+          </n3:SpecifiedTradeSettlementLineMonetarySummation>
+        </n3:SpecifiedLineTradeSettlement>
+      </n3:IncludedSupplyChainTradeLineItem>
+    </n2:SupplyChainTradeTransaction>
+  </Body>
+  <transactionID />
+</n0:SendTaxInvoiceRequest>

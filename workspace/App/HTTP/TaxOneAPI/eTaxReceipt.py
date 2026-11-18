@@ -186,6 +186,7 @@ def validReqContentType(CTX:dict) -> int:
 def validReqAuth(CTX:dict) -> int:
 
   # Shortcut
+  Auth    = CTX['S4']['Authorization']
   req     = CTX['Request']
   headers = req['headers']
 
@@ -208,15 +209,15 @@ def validReqAuth(CTX:dict) -> int:
     return 401
 
   # Base64 decode
-  auth = b64_decode(code)
-  auth = auth.split(':')
+  decoded = b64_decode(code)
+  decoded = decoded.split(':')
 
   # Remember Auth Base64 code
-  CTX['Auth']['code'] = code
+  Auth['code'] = code
 
   # Decoded Auth [user,pass]
-  CTX['Auth']['user'] = auth[0]
-  CTX['Auth']['pass'] = auth[1]
+  Auth['user'] = decoded[0]
+  Auth['pass'] = decoded[1]
 
   # 200/OK
   return 200

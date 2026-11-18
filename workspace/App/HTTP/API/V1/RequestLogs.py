@@ -180,7 +180,7 @@ def deleteRequestContext(CTX:dict) -> list:
       # Delete Request-Context file (.json)
       if os.path.exists(filepath):
         os.remove(filepath)
-        deleted.append(key)
+        deleted.append(record['key'])
 
     # Update App-Context
     CTX['DeletedContexts'] = deleted

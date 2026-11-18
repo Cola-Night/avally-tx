@@ -5,8 +5,8 @@
   },
   "Authorization": {
     "Basic": {
-      "Username": "AVALLY_Test",
-      "Password": "AVALLY_Test"
+      "Username": "Username",
+      "Password": "Password"
     },
     "Bearer": [
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."

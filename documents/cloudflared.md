@@ -1,8 +1,6 @@
-# cloudflared
+# cloudflared tunnel
 
-## cloudflared tunnel
-
-trycloudflare.com
+Use `trycloudflare.com` for deploy.
 
 ```bash
 # install cloudflare (on window)
@@ -19,10 +17,10 @@ cloudflared tunnel --url http://localhost:8000
 
 Note: cloudflared tunnel generate randomize url
 ```
-Pattern:
+URL-Pattern:
 {RANDOM}.trycloudflare.com
 
-Example:
+Examples:
 foo-bar-potato-banana.trycloudflare.com
 ide-maiden-operational-exhibitions.trycloudflare.com
 ```

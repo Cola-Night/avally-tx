@@ -5,7 +5,7 @@ def main() -> None:
   try:
     
     # Input Base64 encoded
-    encoded = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
+    encoded = ''
 
     # Str -> Bytes -> Str
     decoded = base64.b64decode(encoded)

@@ -50,8 +50,6 @@ def inputTimer(label: str, secs: float = 10.0) -> str:
   # timeout
   return ''
 
-
-
 # Start main function
 if __name__ == "__main__":
   main()

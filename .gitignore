@@ -1,3 +1,5 @@
 __pycache__/
+storage/Base64
+storage/S4HANA
 workspace/.temp
 workspace/Config/ETax.json

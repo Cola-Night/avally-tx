@@ -2,7 +2,10 @@ from App.Module.Utility import *
 from requests.auth import HTTPBasicAuth
 import requests
 
-# Testing TaxOne-API (from PDF example "TAXONE JSON API SPEC V1.0.pdf")
+# Testing TaxOne-API 
+# ref:
+# - /documents/TaxOne-API/TAXONE JSON API SPEC V1.0.pdf
+#
 # HTTP-Request:
 # ```
 # [POST] https://test.streamtaxone.com/taxone-API/V2.1/etax/receipt
@@ -13,10 +16,8 @@ import requests
 #   "header": {...},
 #   "etax": {...}
 # }
-
 def main() -> None:
   try:
-
     # Context
     CTX = {
       'CONFIG': {
@@ -29,8 +30,7 @@ def main() -> None:
         'Method': 'POST',
         'URL': 'https://{Host}/taxone-API/{Version}/etax/receipt',
         'Headers': {
-          'Content-Type': 'application/json',
-          'API-Key': '',
+          'Content-Type': 'application/json;charset=UTF-8',
         },
         'Body': {
           'header': {},
@@ -52,30 +52,30 @@ def main() -> None:
 
     # Send Request, wait Responsee
     sendRequest(CTX)
-
   except Exception as e:
     print(f"[ERROR] main: {e}")
 
 # Overwrite [CONFIG] with JSON-file
 def initConfigJSON(CTX:dict) -> None:
-  try:
-    
+  try: 
     # Config file (.json)
     file = 'Config/ETax.json'
 
     # Load json-file
     data = jsonLoad(file)
 
-    # Find data
+    # Shortcut data in Config.json
     host      = data['Connection']['Host'] 
     username  = data['Authorization']['Basic']['Username'] 
     password  = data['Authorization']['Basic']['Password'] 
     token     = data['Authorization']['Bearer'][0]
 
-    # Overwrite context
+    # Overwrite Context[CONFIG]
     CTX['CONFIG']['Host'] = host
     CTX['CONFIG']['Username'] = username
     CTX['CONFIG']['Password'] = password
+
+    # Add Request.Header[API-Key]
     CTX['Request']['Headers']['API-Key'] = token
 
   except Exception as e:
@@ -84,19 +84,20 @@ def initConfigJSON(CTX:dict) -> None:
 # Prepare HTTPBasicAuth
 def initBasicAuth(CTX:dict) -> None:
   try:
-    # Find username,password
+    # Find [username, password]
     username = CTX['CONFIG']['Username']
     password = CTX['CONFIG']['Password']
 
-    # "Username:Password"
+    # character between user,pass
     separator = ':'
 
-    # Base64 credentials
+    # Base64 credentials "Usernane:Password"
     credentials = [username, password]
     credentials = separator.join(credentials)
     credentials = b64_encode(credentials)
 
     # Header-Value
+    # basic = 'Basic {credentials}'
     basic = 'Basic {credentials}'
     basic = basic.format(**{
       'credentials': credentials,
@@ -112,7 +113,6 @@ def initBasicAuth(CTX:dict) -> None:
 # Prepare Request-URL
 def initRequestURL(CTX:dict) -> None:
   try:
-
     # Shortcut
     Config  = CTX['CONFIG']
     Request = CTX['Request']
@@ -148,10 +148,10 @@ def sendRequest(CTX:dict) -> None:
   try:
     # Shortcut
     Request = CTX['Request']
-
+    
     # File save location
-    save_req = '.temp/TaxOne-res.json'
-    save_res = '.temp/TaxOne-rep.json'
+    save_req = '.temp/TaxOne-req.json'
+    save_res = '.temp/TaxOne-res.json'
 
     # Save Request into JSON-file
     jsonSave(save_req,Request)
@@ -164,8 +164,12 @@ def sendRequest(CTX:dict) -> None:
       json=Request['Body'],
     )
 
+    # Get response protocol (example: "HTTP/1.1")
+    protocol = getResponseProtocol(response)
+
     # Summery Response
     results = {
+      'Protocol': protocol,
       'StatusCode': response.status_code,
       'Headers': dict(response.headers),
       'Body': response.json(),
@@ -174,9 +178,9 @@ def sendRequest(CTX:dict) -> None:
     # Save into JSON
     jsonSave(save_res,results)
 
+    # Feedback
     print(save_req)
     print(save_res)
-
 
   except Exception as e:
     print(f"[ERROR] sendRequest: {e}")
@@ -185,7 +189,19 @@ def sendRequest(CTX:dict) -> None:
 
 
 
-
+# [Util]
+def getResponseProtocol(response) -> str:
+  # Version map
+  mapping = {
+    10: 'HTTP/1.0',
+    11: 'HTTP/1.1',
+  }
+  # (int) [10|11]
+  version = response.raw.version
+  # Lookup version-map with int (key)
+  protocol = mapping.get(version,f"UNKNOWN/{version}")
+  # (string)
+  return protocol
 
 # [Example]
 # eTax Request-Body example
@@ -201,8 +217,8 @@ def eTaxRequestBody() -> dict:
       'documentRefNo': '',
       'docRefIssueDateTime': '',
       'documentRefType': '',
-      'productCode': 'Stream',
-      'branchCode': '00000',
+      'productCode': 'Test',
+      'branchCode': '22222',
       'customerProfile': {
         'cusCompanyName': 'บริษัท ทดสอบ จากัด',
         'cusTaxType': 'TXID',
@@ -249,7 +265,7 @@ def eTaxRequestBody() -> dict:
             {
               'lineNO': '1',
               'itemID': '001',
-              'itemName': 'Air Freight',
+              'itemName': 'Item 1',
               'itemUnit': 'PCS',
               'calculatedRate': 7,
               'itemBilledQuantity': 1,
@@ -270,7 +286,3 @@ def eTaxRequestBody() -> dict:
       'optional': {},
     },
   }
-
-# Start main function
-if __name__ == "__main__":
-  main()

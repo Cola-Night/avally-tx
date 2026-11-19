@@ -17,7 +17,6 @@ def inspectParams(callback) -> list:
 
 
 
-# EXPERIMENTAL
 # list files in directory
 def listFiles(path:str) -> None | list:
   try:
@@ -45,6 +44,13 @@ def listFiles(path:str) -> None | list:
   except Exception as e:
     raise
 
+# Check file-type is "file" (not dir)
+def isFile(path:str) -> bool:
+  try:
+    return os.path.isfile(path)
+  except Exception as e:
+    raise
+
 # Save data into file
 def fileSave(file, data):
   try:
@@ -66,7 +72,16 @@ def fileLoad(file):
   except Exception as e:
     raise
 
-
+# Get filepath "dirname" and create missing dirs
+def mkDirname(file:str) -> bool:
+  try:
+    # Get dirname
+    dirname = os.path.dirname(file)
+    # create directories recursively
+    os.makedirs(dirname, exist_ok=True)
+    return True
+  except:
+    return False
 
 # Validate JSON
 def isValidJSON(encoded:str) -> bool:
@@ -113,26 +128,26 @@ def jsonSave(file, data: str|list|dict) -> bool:
 # Base64 encode
 def b64_encode(message:str|bytes) -> str:
   try:
-    # convert: string -> bytes
+    # convert: message/string -> message/bytes
     if isinstance(message, str):
       message = message.encode('utf-8')
 
     # convert: message/bytes -> base64/bytes -> base64/string
-    encoded_bin = base64.b64encode(message)
-    encoded_str = encoded_bin.decode("utf-8")
+    encoded_b = base64.b64encode(message)
+    encoded_s = encoded_b.decode("utf-8")
 
     # (string)
-    return encoded_str
+    return encoded_s
   except Exception as e:
     raise
 
 # Base64 decode
 def b64_decode(encoded:str) -> str:
   try:
-    # string -> bytes -> string/base64
-    decoded_bin = base64.b64decode(encoded)
-    decoded_str = decoded_bin.decode('utf-8')
-    return decoded_str
+    # b64/string -> decoded/bytes -> decoded/string
+    decoded_b = base64.b64decode(encoded)
+    decoded_s = decoded_b.decode('utf-8')
+    return decoded_s
   except Exception as e:
     raise
 

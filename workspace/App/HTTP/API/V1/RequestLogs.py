@@ -9,7 +9,7 @@ def Records(params:dict = {}) -> tuple:
     CTX = createContext(params)
     res = CTX['Response']
     
-    # Required secret cookie to continue
+    # Required secret cookie to access API
     if validSecretCookie(CTX) == False:
       return responseError(403)
 
@@ -37,7 +37,7 @@ def Record(params:dict = {}) -> tuple:
     CTX = createContext(params)
     res = CTX['Response']
     
-    # Required secret cookie to continue
+    # Required secret cookie to access API
     if validSecretCookie(CTX) == False:
       return responseError(403)
 
@@ -48,14 +48,14 @@ def Record(params:dict = {}) -> tuple:
     if key == None:
       return responseError(400)
 
-    # Find Request-Log file
+    # Use "key" to find Request-Context file
     find = '{path}/{key}'
     find = find.format(**{
       'path': CTX['Path']['RequestContext'],
       'key': key,
     })
 
-    # [404/NotFound] file not found
+    # [404/NotFound] Request-Context file not found
     if not os.path.isfile(find):
       return responseError(404)
 

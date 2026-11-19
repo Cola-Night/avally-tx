@@ -15,7 +15,7 @@ server = Flask(__name__,
   static_folder='Public',
 )
 
-# Set Cross-Origin by pathname prefix
+# Cross-Origin by pathname prefix
 CORS(server, resources={
   r"/api/*": {
     "origins": "*",
@@ -165,7 +165,7 @@ def index():
     path='index.html',
   )
 
-# [MediaFile] Response MediaFile from "Storage/CDN/..."
+# [Media] Response Media-File from "Storage/CDN/..."
 @server.route('/cdn/<path:filepath>')
 def file_cdn(filepath):
   log_request_history()

@@ -1,6 +1,6 @@
 {
   "header": {
-    "messageID": "STREAM01",
+    "messageID": "Example-ID",
     "sentDTTM": "2020-08-21 10:00:00",
     "outputResponseType": 2
   },
@@ -9,8 +9,8 @@
     "documentRefNo": "",
     "docRefIssueDateTime": "",
     "documentRefType": "",
-    "productCode": "Stream",
-    "branchCode": "00000",
+    "productCode": "Test-Stream",
+    "branchCode": "11111",
     "customerProfile": {
       "cusCompanyName": "บริษัท ทดสอบ จากัด",
       "cusTaxType": "TXID",

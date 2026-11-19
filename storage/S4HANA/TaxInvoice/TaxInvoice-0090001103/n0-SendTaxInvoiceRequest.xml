@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<n0:SendTaxInvoiceRequest xmlns:n0="http://www.sap.com/eDocument/TH/SendTaxInvoice/v1.0"
-  xmlns:prx="urn:sap.com:proxy:X9A:/1SAI/TAS0CF98966C3AB41DC8224:920" xmlns:n1="http://www.w3.org/2000/09/xmldsig#"
+<n0:SendTaxInvoiceRequest
+  xmlns:n0="http://www.sap.com/eDocument/TH/SendTaxInvoice/v1.0"
+  xmlns:prx="urn:sap.com:proxy:X9A:/1SAI/TAS0CF98966C3AB41DC8224:920"
+  xmlns:n1="http://www.w3.org/2000/09/xmldsig#"
   xmlns:n2="urn:etda:uncefact:data:standard:TaxInvoice_CrossIndustryInvoice:2"
   xmlns:n3="urn:etda:uncefact:data:standard:TaxInvoice_ReusableAggregateBusinessInformationEntity:2">
   <Body>

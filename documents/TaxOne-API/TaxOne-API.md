@@ -18,11 +18,22 @@ Headers:
   - Content-Type: application/json
   - API-Key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.B64(Payload).Base64(Signature)
 
+<br>
+
+```txt
+NOTE: Header[API-Key] without prefix `Bearer` 
+
+✅ Correct
+API-Key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9....
+
+❌ Wrong:
+API-Key: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9....
+```
+
 ## Response JSON
 
 ```
-Note: M/O
-M = Mandatory | O = Optional
+Note: M/O | M = Mandatory | O = Optional
 ```
 
 | Field Name            | Type         | Description                               | M/O |
@@ -38,7 +49,7 @@ M = Mandatory | O = Optional
 | header.responseDTTM   | String       | System received time                      |  M  |
 
 
-Result Code and Message
+#### Result Code and Message
 
 | Code | Message                     |
 |:----:|:----------------------------|
@@ -48,7 +59,7 @@ Result Code and Message
 | 203  | Invalid data format         |
 | 301  | Authentication failure      |
 
-#### Error-Case: 301 &mdash; Authentication failure
+#### Error-Case: 301 &mdash; "Authentication failure"
 
 ```json
 {
@@ -68,7 +79,27 @@ Result Code and Message
 }
 ```
 
-#### Success-Case: 200 &mdash; Receive Transaction Success
+#### Success-202: Valid-Formal but Invalid data 
+
+```json
+{
+  "data": {
+    "transactionRefNo": "",
+    "resultCode": "202",
+    "resultMessage": "Please check product or branch code",
+    "fileNamePdf": null,
+    "fileDataPdf": null,
+    "fileNameXml": null,
+    "fileDataXml": null
+  },
+  "header": {
+    "messageID": "STREAM01",
+    "responseDTTM": "2026-11-19 16:44:25"
+  }
+}
+```
+
+#### Success-Case: 200 &mdash; "Receive Transaction Success"
 
 ```json
 {

@@ -19,8 +19,3 @@ def main() -> None:
 
   except Exception as e:
     print(f"[ERROR] main: {e}")
-
-
-# Start main function
-if __name__ == "__main__":
-  main()

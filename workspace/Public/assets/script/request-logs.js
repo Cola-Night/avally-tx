@@ -52,11 +52,21 @@ function renderRequestLogs(data = {}) {
   const find = "#request-logs";
   const wrap = document.querySelector(find);
 
+  // Find table elements
+  const table = wrap.querySelector("table");
+  const tbody = table.querySelector("[data-body=records]");
+
+  console.log("table",{table,tbody});
+
 }
 
 /* document ready */
 document.addEventListener("DOMContentLoaded",()=>{
+
+  // [init]
   initApplication();
+
+  // experiment
   updateRequestLogs().then((data)=>{
     console.log("response",data);
   });

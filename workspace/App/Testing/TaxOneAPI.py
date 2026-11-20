@@ -217,8 +217,8 @@ def eTaxRequestBody() -> dict:
       'documentRefNo': '',
       'docRefIssueDateTime': '',
       'documentRefType': '',
-      'productCode': 'Test',
-      'branchCode': '22222',
+      'productCode': 'IT-CLOUD-100',
+      'branchCode': '00002',
       'customerProfile': {
         'cusCompanyName': 'บริษัท ทดสอบ จากัด',
         'cusTaxType': 'TXID',

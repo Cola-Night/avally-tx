@@ -54,12 +54,13 @@ def log_request_history() -> str:
 
     # Prepare CSV-Writer
     log.create(
-      file='.temp/request-logs.csv',
+      file='.temp/request-logs/#request-logs.csv',
       name='RequestLogs',
       headers=[
         'DateTime',
         'Method',
         'URL',
+        'Query',
         'Context',
       ],
     )
@@ -71,12 +72,17 @@ def log_request_history() -> str:
     # Request-Context (json-file save location)
     context = log_request_context()
 
+    # (string) Raw-QueryString (bytes->string)
+    query = request.query_string
+    query = query.decode('utf-8')
+
     # Append new request-history (CSV-Row)
     # Note: use "name" as shortcut when append new row
     log.append('RequestLogs',[
       current_dt,
       request.method,
-      request.full_path,
+      request.path,
+      query,
       context['code'],
     ])
   except Exception as e:
@@ -117,6 +123,11 @@ def log_request_context() -> dict:
     # Request-Headers
     headers = dict(request.headers)
 
+    # (list) QueryString (split "&")
+    queries = request.query_string
+    queries = queries.decode('utf-8')
+    queries = queries.split('&')
+
     # Request-Body (default)
     body = None
 
@@ -129,8 +140,9 @@ def log_request_context() -> dict:
     # Save Request-Context (JSON-file)
     jsonSave(save,{
       'method':   request.method,
-      'url':      request.full_path,
+      'pathname': request.path,
       'headers':  headers,
+      'queries':  queries,
       'body':     body,
     })
 
@@ -184,6 +196,13 @@ def request_logs_index():
   if 'secret' not in request.cookies:
     return abort(404) # fake 404 (real=403)
 
+  # Get cookie value
+  value = request.cookies.get('secret')
+
+  # Todo: fix cookie value
+  if value != 'AVALLY_Test':
+    return abort(404) # fake 404 (real=403)
+
   # (text/html) Response
   return send_from_directory(
     directory='Resources/HTML/Request-Logs',
@@ -193,8 +212,6 @@ def request_logs_index():
 
 
 
-
-# todo: wait for Stream/TaxOne-API spec.
 
 # [JSON/TaxOne-API] /taxone-API/V2.1/etax/receipt
 # SAP SOAP-Payload -> Convert-Payload -> Send to OneTax-API

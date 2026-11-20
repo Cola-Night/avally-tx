@@ -1,6 +1,7 @@
 from App.Module.Utility import *
 import importlib
 import inspect
+import select
 import sys
 import os
 
@@ -13,66 +14,78 @@ def main() -> None:
         'Collection': 'App/Testing',
       },
       'Executor': {
-        'selected': 'App.Testing.MacroCSV',
-        'function': 'main',
-        'arguments': [],
+        'Prefix': 'App.Testing',
+        'Callback':  None, # None | list
+        'Arguments': [],
+        'Mapping': {
+          'MacroCSV': {},
+          'TaxOneAPI': {},
+        },
       },
     }
 
     # [init]
-    # initArguments(CTX)
-    # initScanModules(CTX)
-
-    # [Executor]
+    initArguments(CTX)
+    initScanModules(CTX)
     startExecutor(CTX)
 
   except Exception as e:
     print(f"[ERROR] x-test: {e}")
 
-# [init] Get input arguments
+# [init] Use terminal arguments to update context
 def initArguments(CTX:dict) -> None:
   try:
-    print('initArguments')
-    
-    # remove script-name
-    params   = sys.argv[1:]
-    length   = len(params)
-    executor = ''
+    # remove first-item in list
+    args = sys.argv[1:]
 
-    # use first-param as executor
-    if length > 0:
-      executor = params[0]
-      executor = executor.split('@')
-      params   = params[1:]
+    # empty input
+    if len(args) < 1:
+      return
 
-    # Shortcut
+    # Context shortcut
     EX = CTX['Executor']
 
-    # Update context
-    match len(executor):
-      case 1:
-        EX['module'] = executor[0]
-        EX['function'] = executor[1]
+    # use first-arg as callback (module@function)
+    callback = args[0].split('@')
 
+    # Set default-function (if missing)
+    if len(callback) < 2:
+      callback.append('main')
+    
     # Update context
-    EX['params']
+    EX['Callback']  = callback
+    EX['Arguments'] = args[1:]
+
   except Exception as e:
     raise
 
-# [init]  
+# [init]
 def initScanModules(CTX:dict) -> None:
   try:
-    print('initScanModules')
-
+    # Context shortcut
+    EX = CTX['Executor']
+    
     # Listing python-script files
-    files = CTX['Path']['T']
-    files = listFiles(files)
+    files = listFiles(CTX['Path']['Collection'])
 
-    # Process
-    for path in files:
-      # Convert file-path to module-path
-      mp = path[:-3].replace('/','.')
-      pp([path,mp])
+    # Reset mapping
+    EX['Mapping'] = {}
+
+    # Convert file-path to module-path
+    for source in files:
+
+      # Convert to module-path
+      module = source[:-3].replace('/','.')
+
+      # Lookup key
+      key = module.removeprefix(EX['Prefix'])
+      key = key.lstrip('.')
+      
+      # Update mapping
+      EX['Mapping'][key] = {
+        'source': source,
+        'module': module,
+      }
 
   except Exception as e:
     raise
@@ -81,25 +94,54 @@ def initScanModules(CTX:dict) -> None:
 def startExecutor(CTX:dict) -> None:
   try:
     # Shortcut
-    X = CTX['Executor']
-    M = X['selected']
-    F = X['function']
+    EX = CTX['Executor']
 
+    # Callback not set
+    if EX['Callback'] == None:
+      return
+
+    # Module-Path
+    path = '{Prefix}.{Path}'
+    path = path.format(**{
+      'Prefix': EX['Prefix'],
+      'Path': EX['Callback'][0],
+    })
+    
     # Load module (python-script file)
-    module = importlib.import_module(M)
+    module = importlib.import_module(path)
     module = importlib.reload(module)
 
-    # Get function by string
-    callback = getattr(module,F)
-
-    # ERROR callback not callable
-    if callable(callback) == False:
-      raise ValueError(f"invalid callback ({M}@{F})")
+    # Select function in module
+    callback = getattr(module,EX['Callback'][1])
 
     # Execute callback
-    response = callback(*X['arguments'])
+    response = callback(*EX['Arguments'])
+
   except Exception as e:
     raise
+
+
+
+
+
+
+# Todo:
+# Input with timer (default 10.0 seconds)
+def inputTimer(label: str, secs: float = 10.0) -> str:
+
+  # Display input label
+  print(label, end="", flush=True)
+
+  # waiting for user input or timeout
+  ready, _, _ = select.select([sys.stdin], [], [], secs)
+
+  # input success
+  if ready:
+    return sys.stdin.readline().rstrip("\n")
+  
+  # timeout
+  return ''
+
 
 # Start main function
 if __name__ == "__main__":

@@ -9,52 +9,54 @@ def main() -> None:
     # Handler multiple CSV
     log = MacroCSV()
 
+    # CSV save location
+    save = '.temp/macro-csv-01.csv'
+
     # Create/Load CSV-File (input row=list)
     log.create(
-      file='.temp/macro-csv-01.csv',
+      file=save,
       name='EX01',
       headers=[
         'code',
         'name',
-        'datetime',
+        'note',
       ],
     )
 
-    # Create/Load CSV-File (input row=dict)
-    log.create(
-      file='.temp/macro-csv-02.csv',
-      name='EX02',
-      headers=[
-        'code',
-        'message',
-      ],
-    )
-    
-    # Get current DateTime (string/DateTime-UTC)
-    dt = datetime.now(timezone.utc).isoformat()
+    # Create CSV-Rows
+    if False:
 
-    # Test append row with (list)
-    log.append("EX01",[
-      uuid.uuid4(),
-      'append row with (list)',
-      dt,
-    ])
+      # Insert CSV-Rows with (list)
+      for i in range(10):
+        no = str(i+1)
+        z2 = no.zfill(2)
+        z3 = no.zfill(3)
+        z4 = no.zfill(4)
 
-    # Test append row with (dict)
-    log.append("EX02",{
-      'code': uuid.uuid4(),
-      'message': 'test dict 1',
-    })
+        # Insert CSV-Rows
+        log.append('EX01',[
+          f"L{z3}",
+          f"Name-{z2}",
+          f"Note-{z4}",
+        ])
 
-    # Test append row with (dict)
-    log.append("EX02",{
-      'code': uuid.uuid4(),
-    })
+      # Insert CSV-Rows with (dict)
+      for i in range(10):
+        no = str(i+1)
+        z2 = no.zfill(2)
+        z3 = no.zfill(3)
+        z4 = no.zfill(4)
 
-    # Test append row with (dict)
-    log.append("EX02",{
-      'message': 'test dict 1',
-    })
+        log.append('EX01',{
+          'code': f"D{z3}",
+          'name': f"Name-{z2}",
+          'note': f"Note-{z4}",
+        })
+
+    # Select CSV-Rows
+    records = log.getRecords('EX01', limit=-1, skip=0)
+
+    pp(records)
 
   except Exception as e:
     print(f"[ERROR] main: {e}")

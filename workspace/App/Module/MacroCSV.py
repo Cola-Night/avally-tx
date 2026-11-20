@@ -1,3 +1,4 @@
+from App.Module.Utility import *
 from typing import Self
 import csv
 import os
@@ -16,12 +17,9 @@ class MacroCSV:
       if os.path.isfile(file):
         return self.load(name, file)
 
-      # Parent directories
-      parent = os.path.dirname(file)
-
-      # Create missing directories
-      if not os.path.isdir(parent):
-        os.makedirs(parent, exist_ok=True)
+      # Fail create missing directories
+      if mkDirname(file) == False:
+        return self
 
       # Write CSV-Headers into file
       if isinstance(headers, list):
@@ -79,7 +77,9 @@ class MacroCSV:
     except OSError as e:
       raise
 
-  # Append new CSV-Row
+
+
+  # [Update] Append new CSV-Row
   def append(self, name:str, row:list | dict) -> Self:
     try:
       # ERROR: unknown collection name
@@ -100,8 +100,10 @@ class MacroCSV:
     except Exception as e:
       raise
 
-  # Read CSV-file headers
-  def readHeaders(self, file:str) -> list:
+
+
+  # [Select] Get CSV-Headers (first-row)
+  def getHeaders(self, file:str) -> list:
     try:
       # default headers
       headers = []
@@ -118,7 +120,45 @@ class MacroCSV:
     except OSError as e:
       raise
 
-  # Use row type to construct (csv.writer) or (csv.DictWriter)
+  # [Select] Get CSV-Rows (records)
+  def getRecords(self, name:str, limit=-1, skip=0) -> list:
+    try:
+      # default output
+      records = []
+      length  = 0
+
+      # Lookup coollection data with shortcut-name
+      data = self.collection[name]
+
+      # Open File-Handler
+      with open(data['file'], mode='r', newline='', encoding='utf-8-sig') as handle:
+        # CSV-Reader
+        reader = csv.DictReader(handle)
+        
+        # Skip CSV-Rows
+        for i in range(skip):
+          next(reader)
+
+        # Loop remaining rows
+        for row in reader:
+          records.append(row)
+          length = (length + 1)
+
+          if length == limit:
+            break
+
+      # (list)
+      return records
+    except Exception as e:
+      raise
+
+
+
+
+
+
+
+  # [Util] Use row type to construct (csv.writer) or (csv.DictWriter)
   def writerByType(self, handle, row:list | dict):
     try:
       # default writer handle
@@ -130,7 +170,7 @@ class MacroCSV:
 
       # row is (dict) = csv.DictWriter
       if isinstance(row, dict):
-        headers = self.readHeaders(handle.name)
+        headers = self.getHeaders(handle.name)
         writer  = csv.DictWriter(handle, fieldnames=headers)
 
       # (None|csv.writer|csv.DictWriter)

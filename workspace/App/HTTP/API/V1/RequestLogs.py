@@ -1,3 +1,4 @@
+from App.Module.MacroCSV import MacroCSV
 from App.Module.Utility import *
 from flask import request
 import os
@@ -41,7 +42,7 @@ def Record(params:dict = {}) -> tuple:
     if validSecretCookie(CTX) == False:
       return responseError(403)
 
-    # QueryString
+    # QueryString - Request-Context-Key
     key = request.args.get('key')
 
     # [400/BadRequest] required query "key"
@@ -49,7 +50,7 @@ def Record(params:dict = {}) -> tuple:
       return responseError(400)
 
     # Use "key" to find Request-Context file
-    find = '{path}/{key}'
+    find = '{path}/req-{key}.json'
     find = find.format(**{
       'path': CTX['Path']['RequestContext'],
       'key': key,
@@ -111,11 +112,11 @@ def createContext(params:dict = {}) -> dict:
       },
       'Auth': {
         'CookieKey': 'secret',
-        'CookieVal': 'Avally_Test',
+        'CookieVal': 'AVALLY_Test',
       },
       'Path': {
         'RequestContext': '.temp/request-logs', 
-        'RequestHistory': '.temp/request-logs.csv', 
+        'RequestHistory': '.temp/request-logs/#request-logs.csv', 
       }
     }
 
@@ -124,37 +125,28 @@ def createContext(params:dict = {}) -> dict:
   except Exception as e:
     raise
 
-# List Request-Logs files
+# List Request-Logs from CSV
 def listRequestLogs(CTX:dict) -> list:
   try:
     
-    # default output
-    records = []
+    # Handler multiple CSV
+    log = MacroCSV()
 
-    # List files in directory
-    files = listFiles(CTX['Path']['RequestContext'])
+    # Create/Load CSV-File (input row=list)
+    log.create(
+      file=CTX['Path']['RequestHistory'],
+      name='RequestLogs',
+      headers=[
+        'DateTime',
+        'Method',
+        'URL',
+        'Query',
+        'Context',
+      ],
+    )
 
-    # Ignore error?
-    if files == None:
-      return records
-
-    # Add files into records
-    for index, path in enumerate(files):
-
-      # Get file created time (timestamp)
-      created = os.path.getctime(path)
-
-      # Get file basename
-      basename = os.path.basename(path)
-
-      # Update records
-      records.append({
-        'key': basename,
-        'created': created,
-      })
-
-    # Sort by created time (DESC)
-    records.sort(key=lambda x: x['created'], reverse=True)
+    # Get Request-Logs records
+    records = log.getRecords('RequestLogs', skip=0, limit=-1)
 
     # (list)
     return records
@@ -236,7 +228,10 @@ def validSecretCookie(CTX:dict) -> bool:
   except Exception as e:
     raise
 
-# [response] Convert CTX[Response] to tuple (Body, Status, Headers)
+
+
+
+# [response-helper] Convert CTX[Response] to tuple (Body, Status, Headers)
 def responseTuple(CTX:dict) -> tuple:
 
   # shortcut Response
@@ -248,7 +243,7 @@ def responseTuple(CTX:dict) -> tuple:
     res['Headers'], # dict
   )
 
-# [response]
+# [response-helper]
 def responseError(code:int) -> tuple:
 
   # Mapping Error-Code => Message

@@ -54,7 +54,7 @@ def main() -> None:
         })
 
     # Select CSV-Rows
-    records = log.getRecords('EX01', limit=-1, skip=0)
+    records = log.getRecords('EX01', limit=4, skip=4)
 
     pp(records)
 

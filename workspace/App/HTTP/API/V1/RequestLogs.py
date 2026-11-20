@@ -10,19 +10,23 @@ def Records(params:dict = {}) -> tuple:
     CTX = createContext(params)
     res = CTX['Response']
     
+    # [middleware]
     # Required secret cookie to access API
     if validSecretCookie(CTX) == False:
       return responseError(403)
 
-    # List logs files
-    records = listRequestLogs(CTX)
+    # QueryString
+    query = {
+      'skip':  request.args.get('skip', default=0, type=int),
+      'limit': request.args.get('limit', default=100, type=int),
+    }
 
-    # Count files
-    total = len(records)
+    # List logs files
+    records = listRecords(CTX,query)
 
     # Response-Body (JSON)
     res['Body'] = {
-      'Total': total,
+      'Query':  query,
       'Records': records,
     }
 
@@ -125,11 +129,10 @@ def createContext(params:dict = {}) -> dict:
   except Exception as e:
     raise
 
-# List Request-Logs from CSV
-def listRequestLogs(CTX:dict) -> list:
+# List Request-Logs records from CSV
+def listRecords(CTX:dict, options:dict = {}) -> list:
   try:
-    
-    # Handler multiple CSV
+    # Handling multiple CSV
     log = MacroCSV()
 
     # Create/Load CSV-File (input row=list)
@@ -145,8 +148,20 @@ def listRequestLogs(CTX:dict) -> list:
       ],
     )
 
+    # default limit
+    if 'limit' not in options:
+      options['limit'] = 100
+
+    # default skip
+    if 'skip' not in options:
+      options['skip'] = 0
+
     # Get Request-Logs records
-    records = log.getRecords('RequestLogs', skip=0, limit=-1)
+    records = log.getRecords(
+      name  = 'RequestLogs',
+      limit = options['limit'],
+      skip  = options['skip'],
+    )
 
     # (list)
     return records
@@ -227,7 +242,6 @@ def validSecretCookie(CTX:dict) -> bool:
     return True
   except Exception as e:
     raise
-
 
 
 

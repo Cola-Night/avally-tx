@@ -77,8 +77,6 @@ class MacroCSV:
     except OSError as e:
       raise
 
-
-
   # [Update] Append new CSV-Row
   def append(self, name:str, row:list | dict) -> Self:
     try:
@@ -121,11 +119,28 @@ class MacroCSV:
       raise
 
   # [Select] Get CSV-Rows (records)
-  def getRecords(self, name:str, limit=-1, skip=0) -> list:
+  def getRecords(self, name:str, limit: None|int = None, skip:int = 0) -> list:
     try:
+
       # default output
       records = []
       length  = 0
+      
+      # Min-Max Limit
+      minimum = 1
+      maximum = 1000
+
+      # fix Limit-None value
+      if limit == None:
+        limit = maximum
+      
+      # fix limit-Max value
+      if limit > maximum:
+        limit = maximum
+
+      # fix limit-Min value
+      if limit < minimum:
+        limit = minimum
 
       # Lookup coollection data with shortcut-name
       data = self.collection[name]
@@ -134,27 +149,27 @@ class MacroCSV:
       with open(data['file'], mode='r', newline='', encoding='utf-8-sig') as handle:
         # CSV-Reader
         reader = csv.DictReader(handle)
-        
+
         # Skip CSV-Rows
         for i in range(skip):
           next(reader)
 
         # Loop remaining rows
         for row in reader:
+          # Add CSV-Row/Record to output
           records.append(row)
+
+          # Update records count
           length = (length + 1)
 
-          if length == limit:
+          # Stop at limit
+          if length >= limit:
             break
 
       # (list)
       return records
     except Exception as e:
       raise
-
-
-
-
 
 
 

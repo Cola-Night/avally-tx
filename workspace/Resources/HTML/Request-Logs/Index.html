@@ -12,81 +12,115 @@
       <div class="px-10 py-20">
         <div class="container-720 mx-a r-10 bg-e">
           <div class="container-inner p-20">
-            
-            <!-- Request-Logs (Records Table) -->
-            <article class="fx-c g-10">
-              <div class="">
-                <h3>Request-Logs</h3>
-              </div>
-              <div class="">
-
-                <div id="request-logs" class="tbl-wrap">
-                  <table class="tbl-01">
-                    <thead class="">
-                      <tr class="">
-                        <th title="Requested-Time">
-                          <div class="">
-                            <span>DateTime</span>
-                          </div>
-                        </th>
-                        <th title="HTTP-Method">
-                          <div class="">
-                            <span>Method</span>
-                          </div>
-                        </th>
-                        <th title="URL">
-                          <div class="">
-                            <span>URL</span>
-                          </div>
-                        </th>
-                        <th title="Request-Context">
-                          <div class="">
-                            <span>Context</span>
-                          </div>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody class="" data-body="loading" hidden>
-                      <tr>
-                        <td class="">
-                          <div class="">
-                            <p>loading...</p>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                    <tbody class="" data-body="records" -hidden>
-                      <tr data-note="example-row-01">
-                        <td class="">
-                          <div class="">
-                            <span>2026-12-31T23:59:59.9999</span>
-                          </div>
-                        </td>
-                        <td class="">
-                          <div class="">
-                            <span>GET</span>
-                          </div>
-                        </td>
-                        <td class="">
-                          <div class="">
-                            <span>/</span>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+            <div class="fx-c g-20">
+              
+              <!-- Request-Logs (Records Table) -->
+              <article class="fx-c g-10">
+                <div class="">
+                  <h3>Request-Logs</h3>
                 </div>
+                <div class="">
 
-              </div>
-            </article>
+                  <!-- Request-Logs -- Table -->
+                  <div id="request-logs" class="tbl-wrap">
+                    <table class="tbl-01">
+                      <thead class="">
+                        <tr class="">
+                          <th title="Requested-Time">
+                            <div class="">
+                              <span>DateTime</span>
+                            </div>
+                          </th>
+                          <th title="HTTP-Method">
+                            <div class="">
+                              <span>Method</span>
+                            </div>
+                          </th>
+                          <th title="URL">
+                            <div class="">
+                              <span>URL</span>
+                            </div>
+                          </th>
+                          <th title="Request-Context">
+                            <div class="">
+                              <span>Context</span>
+                            </div>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="" data-body="loading" hidden>
+                        <tr>
+                          <td class="">
+                            <div class="">
+                              <p>loading...</p>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tbody class="" data-body="records" -hidden>
+                        <tr data-note="example-row-01">
+                          <td data-col="DateTime">
+                            <div class="">
+                              <span>2026-12-31T23:59:59.9999</span>
+                            </div>
+                          </td>
+                          <td data-col="Method">
+                            <div class="">
+                              <span>GET</span>
+                            </div>
+                          </td>
+                          <td data-col="URL">
+                            <div class="">
+                              <span>/</span>
+                            </div>
+                          </td>
+                          <td data-col="Context">
+                            <div class="">
+                              <span>XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX</span>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
 
-            <!-- Clear Records -->
-            <article class="">
-              <form action="/api/v1/request-logs/clear.json" method="post">
-                
-              </form>
-            </article>
+                </div>
+              </article>
 
+              <!-- Clear Records -->
+              <article class="">
+                <form action="/api/v1/request-logs/clear.json" method="post">
+                  
+                  <!--  -->
+                  <div class="row fx-r g-4">
+                    <div class="col fx-c fx-0 jc-e">
+                      <div class="form-field">
+                        <div class="field-head">
+                          <label>Confirm</label>
+                        </div>
+                        <div class="field-body">
+                          <div class="input-text">
+                            <input
+                              type="text"
+                              class="p-4"
+                              name="confirm"
+                              placeholder="Confirm"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col fx-c fx-0 jc-e">
+                      <button type="submit" class="btn p-4">
+                        <span>Clear</span>
+                      </button>
+                    </div>
+                  </div>
+
+                </form>
+              </article>
+
+            </div>
           </div>
         </div>
       </div>

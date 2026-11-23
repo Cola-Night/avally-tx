@@ -12,9 +12,6 @@ The API uses Basic Authentication, which requires the following credentials:
   - Password
   - API-Key
 
-ref: 
-
-
 ## x-test.py TaxOneAPI@main
 
 ```bash

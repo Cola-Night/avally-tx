@@ -1,5 +1,6 @@
 __pycache__/
 storage/Base64
 storage/S4HANA
+storage/TaxOne/.Research
 workspace/.temp
 workspace/Config/ETax.json

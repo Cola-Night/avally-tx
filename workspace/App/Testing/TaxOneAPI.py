@@ -204,7 +204,7 @@ def getResponseProtocol(response) -> str:
   return protocol
 
 # [Example]
-# eTax Request-Body example
+# eTax Request-Body
 def eTaxRequestBody() -> dict:
   return {
     'header': {

@@ -8,38 +8,47 @@
 /* [r] border-radius */
 .r-10 { border-radius: 10px; }
 
-/* [fx-] */
+/* [fx] */
 .fx-c { display: flex; flex-direction: column; }
 .fx-r { display: flex; flex-direction: row;    }
 
-/* [ai-] */
+/* [ai] */
 .ai-c { align-items: center; }
 
-/* [jc-] */
+/* [jc] */
+.jc-s { justify-content: start;  }
 .jc-c { justify-content: center; }
+.jc-e { justify-content: end;    }
 
-/* margin axis-x */
+/* [mx] margin axis-x */
 .mx-a { margin-left: auto; margin-right: auto; }
 
-
-/* gap */
+/* [g] gap */
+.g-2  { gap:  2px; }
+.g-4  { gap:  4px; }
+.g-6  { gap:  6px; }
+.g-8  { gap:  8px; }
 .g-10 { gap: 10px; }
 .g-20 { gap: 20px; }
 
-/* padding */
+/* [p] padding */
+.p-2  { padding:  2px; }
+.p-4  { padding:  4px; }
+.p-6  { padding:  6px; }
+.p-8  { padding:  8px; }
 .p-10 { padding: 10px; }
 .p-20 { padding: 20px; }
 
-/* padding axis-x (left,right) */
+/* [px] padding axis-x (left,right) */
 .px-10 { padding-left: 10px; padding-right: 10px; }
 .px-20 { padding-left: 20px; padding-right: 20px; }
 
-/* padding axis-y (top, bottom) */
+/* [py] padding axis-y (top, bottom) */
 .py-10 { padding-top: 10px; padding-bottom: 10px; }
 .py-20 { padding-top: 20px; padding-bottom: 20px; }
 
-/* width: auto */
+/* [w] width: auto */
 .w-auto { width: auto; }
 
-/* width: fit-content */
+/* [w] width: fit-content */
 .w-fit { width: fit-content; }

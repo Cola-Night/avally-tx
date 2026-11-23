@@ -3,6 +3,9 @@ import pandas as pd
 import xmltodict
 
 # TaxInvoice-XML Analyzer
+# research, investigate XML Structure
+# find static-value, dynamic-value 
+
 # 1. Convert TaxInvoice-XML to 2D-Map
 # 2. Counting 2D-Path/Value (required tag, static value) 
 def main() -> None:
@@ -29,6 +32,9 @@ def main() -> None:
     # init
     processTaxInvoice(CTX)
     saveAnalysis(CTX)
+
+    # Feedback-CLI
+    print(CTX['Path']['SaveAnalysis'])
 
   except Exception as e:
     print(f"[ERROR] TaxInvoice.main: {e}")
@@ -103,14 +109,12 @@ def simplifyFlatMap(data:dict) -> dict:
 
     # (dict)
     return output
-
   except Exception as e:
     raise
 
 # Update CTX.Analysis
 def updateAnalysis(CTX:dict, name:str, data:dict) -> None:
   try:
-    
     # Shortcut
     A = CTX['Analysis']
 
@@ -136,8 +140,6 @@ def updateAnalysis(CTX:dict, name:str, data:dict) -> None:
 
       # Update
       A[key]['values'][value].append(name)
-
-
 
   except Exception as e:
     raise

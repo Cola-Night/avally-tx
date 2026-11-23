@@ -171,23 +171,23 @@ def listRecords(CTX:dict, options:dict = {}) -> list:
 # Delete all Request-Context (JSON) files
 def deleteRequestContext(CTX:dict) -> list:
   try:
-    records = listRequestLogs(CTX)
+    records = listRecords(CTX)
     deleted = []
 
     # Delete Request-Logs files
     for index, record in enumerate(records):
       
       # Convert record-key to filepath (.json)
-      filepath = '{path}/{key}'
+      filepath = '{path}/req-{key}.json'
       filepath = filepath.format(**{
         'path': CTX['Path']['RequestContext'],
-        'key': record['key'],
+        'key':  record['Context'],
       })
 
       # Delete Request-Context file (.json)
       if os.path.exists(filepath):
         os.remove(filepath)
-        deleted.append(record['key'])
+        deleted.append(record['Context'])
 
     # Update App-Context
     CTX['DeletedContexts'] = deleted

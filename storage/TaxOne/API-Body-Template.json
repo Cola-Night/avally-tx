@@ -1,0 +1,89 @@
+{
+  "Template/Body": {
+    "Target": "RequestBody",
+    "Structure": {
+      "header": {
+        "messageID": "Example-ID",
+        "sentDTTM": "2020-08-21 10:00:00",
+        "outputResponseType": 2
+      },
+      "etax": {
+        "documentLanguage": "EN",
+        "documentRefNo": "",
+        "docRefIssueDateTime": "",
+        "documentRefType": "",
+        "productCode": "Test-Stream",
+        "branchCode": "11111",
+        "customerProfile": {
+          "cusCompanyName": "บริษัท ทดสอบ จากัด",
+          "cusTaxType": "TXID",
+          "cusTaxID": "010554409966600000",
+          "cusVATBranch": "",
+          "cusPostcode": "13160",
+          "cusAddressLine1": "ESTATE",
+          "cusAddressLine2": "MOO 1 BANGPA-IN",
+          "cusAddressLine3": "PHRA NAKORN SRI AYUTTHAYA",
+          "cusCountryID": "TH",
+          "mobileNo": "",
+          "email": ""
+        },
+        "mailingAddress": {
+          "shipPostcode": "",
+          "shipAddressLine1": "",
+          "shipAddressLine2": "",
+          "shipAddressLine3": "",
+          "shipCountryID": ""
+        },
+        "documents": [],
+        "optional": {}
+      }
+    }
+  },
+  "Template/eTaxDocument": {
+    "Target": "etax.documents[]",
+    "Structure": {
+      "documentNo": "ST_IV_2101002",
+      "documentType": "TIV",
+      "documentTypeCode": "388",
+      "purpose": "",
+      "purposeCode": "",
+      "issueDateTime": "2020-06-30 00:00:00",
+      "creationDateTime": "2020-06-30 00:00:00",
+      "currency": "THB",
+      "taxCode": "VAT",
+      "dcnTaxInvoice": true,
+      "calculatedRate": 7,
+      "basisAmount": 10000.0,
+      "calculatedAmount": 700.0,
+      "originalInformationAmount": 0.0,
+      "lineTotalAmount": 10000.0,
+      "differenceInformationAmount": 0.0,
+      "allowanceTotalAmount": 0.0,
+      "taxBasisTotalAmount": 10000.0,
+      "taxTotalAmount": 700.0,
+      "grandTotalAmount": 10700.0,
+      "products": []
+    }
+  },
+  "Template/etax.documents[].products[]": {
+    "Target": "tax.documents[].products[]",
+    "Structure": {
+      "lineNO": "1",
+      "itemID": "001",
+      "itemName": "Air Freight",
+      "itemUnit": "PCS",
+      "calculatedRate": 7,
+      "itemBilledQuantity": 1,
+      "itemChargeAmount": 10000.0,
+      "netLineTotalAmount": 10000.0,
+      "taxTotalAmount": 700.0,
+      "netIncludingTaxesLineTotalAmount": 10700.0,
+      "optional": {
+        "XXXDescription1": "Refer : Ok",
+        "XXXDescription2": "",
+        "XXXDescription3": "",
+        "XXXDescription4": ""
+      }
+    }
+  }
+}

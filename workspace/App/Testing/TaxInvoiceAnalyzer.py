@@ -3,11 +3,12 @@ import pandas as pd
 import xmltodict
 
 # TaxInvoice-XML Analyzer
-# research, investigate XML Structure
-# find static-value, dynamic-value 
+# - research, investigate XML Structure
+# - find static-value, dynamic-value 
 
 # 1. Convert TaxInvoice-XML to 2D-Map
-# 2. Counting 2D-Path/Value (required tag, static value) 
+# 2. Counting 2D-Path/Value (required tag, static value)
+
 def main() -> None:
   try:
     # Context

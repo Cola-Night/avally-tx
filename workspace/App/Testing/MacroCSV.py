@@ -3,7 +3,7 @@ from App.Module.Utility import *
 from datetime import datetime, timezone
 import uuid
 
-# Testing "App/Module/MacroCSV"
+# Testing module "MacroCSV"
 def main() -> None:
   try:
     # Handler multiple CSV
@@ -26,7 +26,7 @@ def main() -> None:
     # Create CSV-Rows
     if False:
 
-      # Insert CSV-Rows with (list)
+      # Test using (list) to insert CSV-Rows
       for i in range(10):
         no = str(i+1)
         z2 = no.zfill(2)
@@ -40,7 +40,7 @@ def main() -> None:
           f"Note-{z4}",
         ])
 
-      # Insert CSV-Rows with (dict)
+      # Test using (dict) to insert CSV-Rows
       for i in range(10):
         no = str(i+1)
         z2 = no.zfill(2)

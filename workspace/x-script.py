@@ -9,7 +9,7 @@ def main() -> None:
     # Context
     CTX = {
       'Path': {
-        ''
+        'Script': 'App/Script',
       },
       'Commands': {
         'b64-encode': {

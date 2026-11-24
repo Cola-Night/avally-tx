@@ -6,21 +6,26 @@ import sys
 import os
 
 # Execute python-script in "App/Testing"
+# python x-test.py {module}@{function} {args, ...}
+# Command-Example:
+# ```
+# python x-test.py Example.EX1@main input-01 "input 02" 3.333
+# ```
+
 def main() -> None:
   try:
     # Context
     CTX = {
       'Path': {
-        'Collection': 'App/Testing',
+        'Testing': 'App/Testing',
       },
       'Executor': {
         'Prefix': 'App.Testing',
-        'Callback':  None, # None | list
+        'Callback':  [
+          'Example.EX1',  # module
+          'main',         # function
+        ],
         'Arguments': [],
-        'Mapping': {
-          'MacroCSV': {},
-          'TaxOneAPI': {},
-        },
       },
     }
 
@@ -32,7 +37,7 @@ def main() -> None:
   except Exception as e:
     print(f"[ERROR] x-test: {e}")
 
-# [init] Use terminal arguments to update context
+# [init] Use arguments from terminal to set [module@function, args...]
 def initArguments(CTX:dict) -> None:
   try:
     # remove first-item in list
@@ -56,10 +61,12 @@ def initArguments(CTX:dict) -> None:
     EX['Callback']  = callback
     EX['Arguments'] = args[1:]
 
+    pp(EX)
+
   except Exception as e:
     raise
 
-# [init]
+# [init] Listing [python-script files, function-names, required-arguments]
 def initScanModules(CTX:dict) -> None:
   try:
     # Context shortcut
@@ -141,7 +148,6 @@ def inputTimer(label: str, secs: float = 10.0) -> str:
   
   # timeout
   return ''
-
 
 # Start main function
 if __name__ == "__main__":

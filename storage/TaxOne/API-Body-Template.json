@@ -39,7 +39,7 @@
       }
     }
   },
-  "Template/eTaxDocument": {
+  "Template/Document": {
     "Target": "etax.documents[]",
     "Structure": {
       "documentNo": "ST_IV_2101002",
@@ -65,8 +65,8 @@
       "products": []
     }
   },
-  "Template/etax.documents[].products[]": {
-    "Target": "tax.documents[].products[]",
+  "Template/Product": {
+    "Target": "etax.documents[].products[]",
     "Structure": {
       "lineNO": "1",
       "itemID": "001",

@@ -2,7 +2,12 @@ from App.Module.Utility import *
 from requests.auth import HTTPBasicAuth
 import requests
 
-# Testing TaxOne-API 
+# Testing send POST-Request to TaxOne-API
+# Plan:
+# - testing HTTP-Header[Authorization]
+# - testing API Response-Codes [success,error,etc..]
+# - Analyze Response data
+#
 # ref:
 # - /documents/TaxOne-API/TAXONE JSON API SPEC V1.0.pdf
 #
@@ -55,7 +60,7 @@ def main() -> None:
   except Exception as e:
     print(f"[ERROR] main: {e}")
 
-# Overwrite [CONFIG] with JSON-file
+# Update CTX with JSON-file
 def initConfigJSON(CTX:dict) -> None:
   try: 
     # Config file (.json)
@@ -81,7 +86,7 @@ def initConfigJSON(CTX:dict) -> None:
   except Exception as e:
     print(f"[ERROR] initConfigJSON: {e}")
 
-# Prepare HTTPBasicAuth
+# Prepare HTTPBasicAuth (Header[Authorization])
 def initBasicAuth(CTX:dict) -> None:
   try:
     # Find [username, password]
@@ -110,7 +115,7 @@ def initBasicAuth(CTX:dict) -> None:
     print(f"[ERROR] initBasicAuth: {e}")
     raise
 
-# Prepare Request-URL
+# Prepare Request-URL -- update URL placeholder
 def initRequestURL(CTX:dict) -> None:
   try:
     # Shortcut
@@ -189,13 +194,15 @@ def sendRequest(CTX:dict) -> None:
 
 
 
-# [Util]
+# [Util] Convert Protocol code (int) to string "HTTP/1.X"
 def getResponseProtocol(response) -> str:
+
   # Version map
   mapping = {
     10: 'HTTP/1.0',
     11: 'HTTP/1.1',
   }
+  
   # (int) [10|11]
   version = response.raw.version
   # Lookup version-map with int (key)

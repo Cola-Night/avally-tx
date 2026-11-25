@@ -1,18 +1,13 @@
 {
   "Connection": {
-    "Host": "https://test.streamtaxone.com",
-    "Port": "443"
+    "Host": "test.streamtaxone.com",
+    "Version": "V2.1"
   },
-  "Authorization": {
-    "Basic": {
-      "Username": "Username",
-      "Password": "Password"
-    },
-    "Bearer": [
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
-    ]
-  },
-  "Endpoint": [
-    "/taxone-API/V2.1/etax/receipt"
-  ]
+  "API-Key": [
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+  ],
+  "BasicAuth": {
+    "Username": "",
+    "Password": ""
+  }
 }

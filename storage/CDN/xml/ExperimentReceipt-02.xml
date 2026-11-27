@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<x1:ExperimentReceipt version="02">
+  <Header>
+    <DocCode>001</DocCode>
+    <DocName>Test-001</DocName>
+    <DocType>Example</DocType>
+  </Header>
+  <Records>
+    <record code="001">
+      <code>001</code>
+      <name>R001</name>
+    </record>
+    <record code="002">
+      <code>002</code>
+      <name>R002</name>
+    </record>
+  </Records>
+</x1:ExperimentReceipt>

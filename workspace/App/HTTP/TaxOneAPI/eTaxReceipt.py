@@ -55,14 +55,14 @@ def main(params:dict = {}) -> tuple:
     # 1. Prepare Context data
     initParams,       # 200|500 Custom-Config with CTX.Params
     initRequest,      # 200|500 Flask.Request => update Context
-    initCollapseMap,  # 200|500 Prepare XML/Soap handler
+    initCollapseMap,  # 200|500 Prepare CollapseMap handling XML/Soap
     initETaxReceipt,  # 200|500 Prepare TaxOne Receipt-API handler
 
     # 2. Validate HTTP-Request from S4hana
     validReqMethod,       # 200|400 Validate Request.Method
     validReqContentType,  # 200|40X Validate Request.Header[Content-Type]
     # validReqAuth,         # 200|40X Validate Request.Header[Authorization]
-    validReqSoapAction,   # 200|40X Validate Request.Header[SOAPAction]
+    # validReqSoapAction,   # 200|40X Validate Request.Header[SOAPAction]
     validReqBody,         # 200|40X Validate Request.Body
 
     # 3. Build API-Body/JSON -- S4hana XML/Soap to API-Body/JSON
@@ -217,12 +217,13 @@ def validReqContentType(CTX:dict) -> int:
   if CT[0] not in allow:
     return 400
 
-  # Update context
+  # Remember Content-Type data
   CTX['S4']['ContentType'] = CT
 
   # 200/OK
   return 200
 
+# todo: wait intercept data
 # [valid] Validate Request.Header[Authorization]
 def validReqAuth(CTX:dict) -> int:
 
@@ -241,6 +242,7 @@ def validReqAuth(CTX:dict) -> int:
   # 200/OK
   return 200
 
+# todo: wait intercept data
 # [valid] Validate Request.Header[SOAPAction] and may be empty ("")
 def validReqSoapAction(CTX:dict) -> int:
 
@@ -262,11 +264,27 @@ def validReqBody(CTX:dict) -> int:
 
   # Shortcut
   req  = CTX['Request']
-  body = req['body']
   cMap = CTX['S4']['cMap']
+  body = req['body']
 
   # Load Request-Body XML to cMap
   cMap.importXML(body)
+
+  # XML-Structure: TaxInvoice
+  cMap.define('TaxInvoice',{
+    'n0:SendTaxInvoiceRequest/Body': {},
+    'n0:SendTaxInvoiceRequest/Body/n2:ExchangedDocument': {},
+    'n0:SendTaxInvoiceRequest/Body/n2:SupplyChainTradeTransaction': {},
+    'n0:SendTaxInvoiceRequest/Body/n2:SupplyChainTradeTransaction/n3:ApplicableHeaderTradeAgreement': {},
+    'n0:SendTaxInvoiceRequest/Body/n2:SupplyChainTradeTransaction/n3:ApplicableHeaderTradeDelivery': {},
+    'n0:SendTaxInvoiceRequest/Body/n2:SupplyChainTradeTransaction/n3:ApplicableHeaderTradeSettlement': {},
+    'n0:SendTaxInvoiceRequest/Body/n2:SupplyChainTradeTransaction/n3:IncludedSupplyChainTradeLineItem': {},
+  })
+
+  # XML-Structure: TaxInvoice
+  cMap.define('SendReceiptRequest',{
+    'n0:SendReceiptRequest/Body': {},
+  })
   
   # 200/OK
   return 200
@@ -274,7 +292,7 @@ def validReqBody(CTX:dict) -> int:
 
 
 
-# [TaxOne-API)]
+# [TaxOne-API]
 # Convert Payload from S4HANA.XML to Request-Body.JSON
 def taxOneBuild(CTX:dict) -> int:
 
@@ -284,8 +302,6 @@ def taxOneBuild(CTX:dict) -> int:
 
   # Load Request-Body XML
   cMap.importXML(xml)
-
-
 
   # 200/OK
   return 200

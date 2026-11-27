@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<x1:ExperimentReceipt version="01">
+  <header>
+    <messageID>Example-T1</messageID>
+    <sentDTTM>2026-11-11 11:11:11</sentDTTM>
+    <outputResponseType>2</outputResponseType>
+  </header>
+  <etax>
+    <documentLanguage>EN (T1)</documentLanguage>
+    <documentRefNo>RefNo (T1)</documentRefNo>
+    <docRefIssueDateTime>IssueDT (T1)</docRefIssueDateTime>
+    <documentRefType>RefType (T1)</documentRefType>
+    <productCode>TestCode (T1)</productCode>
+    <branchCode>11111</branchCode>
+
+    <customerProfile>
+      <cusCompanyName>บริษัท ทดสอบ จากัด (T1)</cusCompanyName>
+      <cusTaxType>TXID</cusTaxType>
+      <cusTaxID>111111111111111111</cusTaxID>
+      <cusVATBranch>10001</cusVATBranch>
+      <cusPostcode>10002</cusPostcode>
+      <cusAddressLine1>ESTATE (T1)</cusAddressLine1>
+      <cusAddressLine2>MOO 1 BANGPA-IN (T1)</cusAddressLine2>
+      <cusAddressLine3>PHRA NAKORN SRI AYUTTHAYA (T1)</cusAddressLine3>
+      <cusCountryID>TH</cusCountryID>
+      <mobileNo>+123456890</mobileNo>
+      <email>test.t1@mail.com</email>
+    </customerProfile>
+
+    <mailingAddress>
+      <shipPostcode>21212</shipPostcode>
+      <shipAddressLine1>Line1 (T1)</shipAddressLine1>
+      <shipAddressLine2>Line2 (T1)</shipAddressLine2>
+      <shipAddressLine3>Line3 (T1)</shipAddressLine3>
+      <shipCountryID>TH</shipCountryID>
+    </mailingAddress>
+
+    <documents>
+      <document key="0"></document>
+      <products>
+        <product no="1">
+          <lineNO>1</lineNO>
+          <itemID>001</itemID>
+        </product>
+        <product no="2">
+          <lineNO>2</lineNO>
+          <itemID>002</itemID>
+        </product>
+      </products>
+    </documents>
+
+    <optional></optional>
+  </etax>
+</x1:ExperimentReceipt>

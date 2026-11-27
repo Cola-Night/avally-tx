@@ -16,6 +16,21 @@ def inspectParams(callback) -> list:
   return params
 
 
+# Convert [list|dict] to 2D-Map (dict)
+def flat2D(data:list|dict, parent_key:str='', sep:str='/') -> dict:
+  items = []
+  if isinstance(data, dict):
+    for k, v in data.items():
+      new_key = f"{parent_key}{sep}{k}" if parent_key else str(k)
+      items.extend(flat2D(v, new_key, sep=sep).items())
+  elif isinstance(data, list):
+    for i, v in enumerate(data):
+      new_key = f"{parent_key}{sep}{i}" if parent_key else str(i)
+      items.extend(flat2D(v, new_key, sep=sep).items())
+  else:
+    items.append((parent_key, data))
+  return dict(items)
+
 
 # list files in directory
 def listFiles(path:str) -> None | list:
@@ -122,6 +137,8 @@ def jsonSave(file, data: str|list|dict) -> bool:
     return True
   except Exception as e:
     raise
+
+
 
 
 
